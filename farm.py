@@ -7,30 +7,30 @@ import os
 from datetime import datetime
 
 mkey = MouseKey()
-possibilities = 2.5,2.6,2.7,2.8,2.9,3
+possibilities = 1.75,2,2.25,2.5,2.75,
 
 # for stop execution: press CTRL + E 
 mkey.enable_failsafekill('ctrl+e')
-
 # select de windows game(just 1920x1080 resolution) 
 # !! change de x= and y= if your resolution be diferent !! 
-mkey.left_click_xy_natural(x=1042,y=630,print_coords=False) 
+mkey.left_click_xy_natural(x=1456,y=502,print_coords=False) 
 
 # variables
-counter = 0
+ultimate = True # use ultimate set to True // don't use ultimate set to False
 im_live = "yes"
 counter2 = 0
 pyautogui.press('b')
 
 while im_live == "yes":
-    # detect if you die
+    # detect if you dieb    
     try:
-        death_x, death_y = pyautogui.locateCenterOnScreen('morto.png',confidence=0.5)
+        # find the revive button
+        death_x, death_y = pyautogui.locateOnScreen('morto.png', region=(1665,874, 227, 146), confidence=0.7)
         
         # ok, now you're dead and we'll take you for some air
         os.system('cls')
-        print('Voce morreu, em 5 segundos levaremos voce para farmar energia.')
-        sleep(5)
+        print('Voce morreu, em 10 segundos levaremos voce para farmar energia.')
+        sleep(10)
         pyautogui.click(death_x,death_y)
         os.system('cls')
         print('A caminho do farm de energia, aguarde.')
@@ -57,10 +57,10 @@ while im_live == "yes":
         os.system('cls')
         
         # print good bye 
-        print(f'Você morreu as {datetime.now().strftime("%H:%M")}')
+        print(f'Você morreu as {datetime.now().strftime("%H:%M")} e na rotacao de numero{counter2}')
         im_live = "not"
     # if not die, execute this
-    except:
+    except pyautogui.ImageNotFoundException:
         os.system('cls')
         counter2 += 1
         print('ainda vivo', counter2)
@@ -72,7 +72,5 @@ while im_live == "yes":
         pyautogui.press('pageUP',presses=(random.randint(2,4)))
         pyautogui.press('f')
         sleep(random.choice(possibilities))
-        counter +=1
-        if counter == 6:
-            counter -= 6
+        if ultimate:
             pyautogui.press('r')
