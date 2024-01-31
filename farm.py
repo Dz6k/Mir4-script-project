@@ -6,8 +6,9 @@ import pyautogui
 import os
 from datetime import datetime
 
+
 mkey = MouseKey()
-possibilities = 1.75,2,2.25,2.5,2.75,
+possibilities = 1.75,2,2.25,2.5,2.75,3
 
 # for stop execution: press CTRL + E 
 mkey.enable_failsafekill('ctrl+e')
