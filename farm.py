@@ -26,13 +26,13 @@ while im_live == "yes":
     # detect if you dieb    
     try:
         # find the revive button
-        death_x, death_y = pyautogui.locateOnScreen('morto.png', region=(1665,874, 227, 146), confidence=0.7)
-        
+        death = pyautogui.locateOnScreen('morto.png', region=(1621,858,300,170),confidence=0.7)
+
         # ok, now you're dead and we'll take you for some air
         os.system('cls')
         print('Voce morreu, em 10 segundos levaremos voce para farmar energia.')
-        sleep(10)
-        pyautogui.click(death_x,death_y)
+        sleep(15)
+        pyautogui.click(death)
         os.system('cls')
         print('A caminho do farm de energia, aguarde.')
         sleep(7)
@@ -58,7 +58,7 @@ while im_live == "yes":
         os.system('cls')
         
         # print good bye 
-        print(f'Você morreu as {datetime.now().strftime("%H:%M")} e na rotacao de numero{counter2}')
+        print(f'Você morreu as {datetime.now().strftime("%H:%M")} e na rotacao de numero: {counter2}')
         im_live = "not"
     # if not die, execute this
     except pyautogui.ImageNotFoundException:
