@@ -18,20 +18,22 @@ mkey.left_click_xy_natural(x=1456,y=502,print_coords=False)
 
 # variables
 ultimate = True # use ultimate set to True // don't use ultimate set to False
-im_live = "yes"
+im_live = "yes" 
 counter2 = 0
+
+# start auto atack
 pyautogui.press('b')
 
 while im_live == "yes":
-    # detect if you dieb    
+    # detect if you die    
     try:
-        # find the revive button
+        # find the revive button  in especific area on your monitor
         death = pyautogui.locateOnScreen('morto.png', region=(1621,858,300,170),confidence=0.7)
 
         # ok, now you're dead and we'll take you for some air
         os.system('cls')
         print('Voce morreu, em 10 segundos levaremos voce para farmar energia.')
-        sleep(15)
+        sleep(10)
         pyautogui.click(death)
         os.system('cls')
         print('A caminho do farm de energia, aguarde.')
@@ -60,6 +62,7 @@ while im_live == "yes":
         # print good bye 
         print(f'Você morreu as {datetime.now().strftime("%H:%M")} e na rotacao de numero: {counter2}')
         im_live = "not"
+        
     # if not die, execute this
     except pyautogui.ImageNotFoundException:
         os.system('cls')
