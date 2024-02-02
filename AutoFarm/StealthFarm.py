@@ -55,13 +55,14 @@ def stealthfarm(game):
             sleep(0.05)
             win.SendMessage(win32con.WM_KEYUP, 0x52, 0)
 
+#
 def loop_tab():
     # find the mir4 
     window_name = 'Mir4G[1]'
     hwnd = win32gui.FindWindow(None,window_name)
     win = win32ui.CreateWindowFromHandle(hwnd)
 
-        
+    # tab is never too much, right?
     while True:
         # tab
         win.SendMessage(win32con.WM_KEYDOWN, 0x09, 0)
