@@ -36,7 +36,7 @@ def stealthfarm(game):
         # select a random mob
         for i in range(randint(2,4)):
             win.SendMessage(win32con.WM_KEYUP, 0x21, 0)
-            sleep(0.05)
+            sleep(0.01)
             win.SendMessage(win32con.WM_KEYDOWN, 0x21, 0)
         # confirm atack
         sleep(0.3)
@@ -52,13 +52,13 @@ def stealthfarm(game):
         
         if ultimate:    
             win.SendMessage(win32con.WM_KEYDOWN, 0x52, 0)
-            sleep(0.05)
+            sleep(0.01)
             win.SendMessage(win32con.WM_KEYUP, 0x52, 0)
 
-#
-def loop_tab():
+
+def loop_tab(game):
     # find the mir4 
-    window_name = 'Mir4G[1]'
+    window_name = f'Mir4G[{game}]'
     hwnd = win32gui.FindWindow(None,window_name)
     win = win32ui.CreateWindowFromHandle(hwnd)
 
@@ -73,12 +73,12 @@ def loop_tab():
 os.system('cls')
 if instancia:=input('Qual número do jogo instanciado: '):
     os.system('cls')
-    print('iniciado.')
     try:
         farm = threading.Thread(target=stealthfarm(instancia)) 
-        tab = threading.Thread(target=loop_tab())
+        tab = threading.Thread(target=loop_tab(instancia))
         farm.start()
         tab.start()
+        print('iniciado.')
     except win32ui.error:
         print('instancia errada, verifique e tente novamente,')
 
