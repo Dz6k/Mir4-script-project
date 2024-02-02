@@ -2,14 +2,13 @@
 import random
 import pyautogui
 import os
-import pyautogui
 from mousekey import MouseKey
 from time import sleep
 from pywinauto import Application
 from datetime import datetime
 
 def farm_die_on():
-    app = Application().connect(title='Mir4G[1]')
+    app = Application().connect(title='Mir4G[1]')   
     app.window().set_focus()
     mkey = MouseKey()
     possibilities = 1.75,2,2.25,2.5,2.75,3
