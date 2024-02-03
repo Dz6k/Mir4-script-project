@@ -6,8 +6,15 @@ from mousekey import MouseKey
 from time import sleep
 from pywinauto import Application
 from datetime import datetime
+import threading
 
 def farm_die_on():
+    # check resolution
+    RESOLUTION = 1920,1080
+    check_resolution = pyautogui.resolution()
+    if check_resolution != RESOLUTION:
+        return print('Essa aplicacao é somente para monitores 1920x1080')
+    
     app = Application().connect(title='Mir4G[1]')   
     app.window().set_focus()
     mkey = MouseKey()
@@ -26,8 +33,8 @@ def farm_die_on():
     while im_live == "yes":
         # detect if you die    
         try:
-            # find the revive button  in especific area on your monitor
-            death = pyautogui.locateOnScreen('imagens\morto.png', region=(1621,858,300,170),confidence=0.7)
+            #find the revive button  in especific area on your monitor
+            death = pyautogui.locateOnScreen('AutoFarm\imagens\morto.png', region=(1621,858,300,170),confidence=0.7)
 
             # ok, now you're dead and we'll take you for some air
             os.system('cls')
@@ -43,23 +50,23 @@ def farm_die_on():
             sleep(1)
             
             # open favorites places
-            look_map_x,look_map_y = pyautogui.locateCenterOnScreen('imagens\map.png',confidence=0.7)
+            look_map_x,look_map_y = pyautogui.locateCenterOnScreen('AutoFarm\imagens\map.png',confidence=0.7)
             pyautogui.click(x=look_map_x,y=look_map_y, duration=0.5)
             sleep(0.5)
             
             # select de energy
-            energia_x,energia_y = pyautogui.locateCenterOnScreen('imagens\energia.png',confidence=0.7)
+            energia_x,energia_y = pyautogui.locateCenterOnScreen('AutoFarm\imagens\energia.png',confidence=0.7)
             pyautogui.click(x=energia_x,y=energia_y, duration=0.5)
             
             # teleport to and keep mining
-            tp_x,tp_y = pyautogui.locateCenterOnScreen('imagens\\tp.png',confidence=0.7)
+            tp_x,tp_y = pyautogui.locateCenterOnScreen('AutoFarm\imagens\\tp.png',confidence=0.7)
             pyautogui.click(x=tp_x,y=tp_y, duration=0.5)
             sleep(10)
             pyautogui.press('n')
             os.system('cls')
             
             # print good bye 
-            print(f'Você morreu as {datetime.now().strftime("%H:%M")} e na rotacao de numero: {counter2}')
+            print(f'Você morreu as {datetime.now().strftime("%H:%M")}')
             im_live = "not"
             
         # if not die, execute this
@@ -78,7 +85,6 @@ def farm_die_on():
             if ultimate:
                 pyautogui.press('r')
 
-farm_die_on()
-
-
-
+def start_simple():
+    farm = threading.Thread(target=farm_die_on)
+    farm.start()
