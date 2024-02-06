@@ -12,7 +12,7 @@ possibilities = 1.75,2,2.25,2.5,2.75,3
 
 def stealthfarm_ultimate(game):
     mkey = MouseKey()
-    mkey.enable_failsafekill('ctrl+e')
+    mkey.enable_failsafekill('ctrl+e')  
     #os.system('cls')
     #print(f'{game} iniciado.')
     # find the mir4 
