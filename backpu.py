@@ -1,3 +1,18 @@
+#######################################################################################
+
+
+
+            # IGNORAR, ISSO ERA APENAS PARA CASO TUDO DESSE ERRADO
+
+
+
+
+#######################################################################################
+import sys
+sys.exit()
+
+
+
 # lib   
 import threading
 import win32gui, win32ui, win32con

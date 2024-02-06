@@ -82,7 +82,7 @@ def stealthfarm(game):
             win.SendMessage(win32con.WM_KEYDOWN, 0x21, 0)
 
         # confirmar ataque
-        sleep(0.3)
+        sleep(0.2)
         win.SendMessage(win32con.WM_KEYDOWN, 0x46, 0)
         sleep(0.01)
         win.SendMessage(win32con.WM_KEYUP, 0x46, 0)
@@ -105,7 +105,6 @@ def stealthfarm(game):
             check_color_in_roi(top_right_roi, target_color) or
             check_color_in_roi(bottom_left_roi, target_color) or
             check_color_in_roi(bottom_right_roi, target_color)):
-            sleep(2)
             tentativa = True
             
 def stealthfarm_ultimate(game):
@@ -159,7 +158,6 @@ def stealthfarm_ultimate(game):
             check_color_in_roi(top_right_roi, target_color) or
             check_color_in_roi(bottom_left_roi, target_color) or
             check_color_in_roi(bottom_right_roi, target_color)):
-            sleep(2)
             tentativa = True
             
 def start_safe():
