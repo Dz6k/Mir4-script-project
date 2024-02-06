@@ -109,7 +109,7 @@ def loop_tab(game):
 def start():
     # Search all mir4 process
     process = []
-    for indice in range(0,20):
+    for indice in range(0,10):
         try:
             app = Application().connect(title=f'Mir4G[{indice}]') 
             app_text = app.window().texts() 
@@ -128,7 +128,7 @@ def start():
 def start_ultimate():
     # Search all mir4 process
     process = []
-    for indice in range(0,20):
+    for indice in range(0,10):
         try:
             app = Application().connect(title=f'Mir4G[{indice}]') 
             app_text = app.window().texts() 

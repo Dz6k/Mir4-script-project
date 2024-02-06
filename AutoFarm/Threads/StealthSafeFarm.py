@@ -48,18 +48,15 @@ def color_check_thread(game):
         
             win = win32ui.CreateWindowFromHandle(hwnd)
             for x in range(3):
-                print("Pressionando 6")
-                win.SendMessage(win32con.WM_KEYDOWN, 0x36, 0)
+                win.SendMessage(win32con.WM_KEYDOWN, 0xA0, 0)
                 sleep(0.01)
-                win.SendMessage(win32con.WM_KEYUP, 0x36, 0)
+                win.SendMessage(win32con.WM_KEYUP, 0xA0, 0)
+            sleep(0.2)
             for i in range(10):
-                print("Pressionando 0")
                 win.SendMessage(win32con.WM_KEYDOWN, 0x30, 0)
                 sleep(0.01)
                 win.SendMessage(win32con.WM_KEYUP, 0x30, 0)
-            sleep(2)
             tentativa = True
-        sleep(0.1)
         
 # Função principal de farm
 def stealthfarm(game):
@@ -144,7 +141,6 @@ def stealthfarm_ultimate(game):
         win.SendMessage(win32con.WM_KEYDOWN, 0x09, 0)
         sleep(0.1)
         win.SendMessage(win32con.WM_KEYUP, 0x09, 0)
-        sleep(choice(possibilities))
         if ultimate:    
             win.SendMessage(win32con.WM_KEYDOWN, 0x52, 0)
             sleep(0.01)
@@ -169,7 +165,7 @@ def stealthfarm_ultimate(game):
 def start_safe():
     process = []
 
-    for indice in range(0, 20):
+    for indice in range(0, 10):
         try:
             app = Application().connect(title=f'Mir4G[{indice}]')
             app_text = app.window().texts()
@@ -187,7 +183,7 @@ def start_safe():
 def start__safe_ultimate():
     process = []
 
-    for indice in range(0, 20):
+    for indice in range(0, 10):
         try:
             app = Application().connect(title=f'Mir4G[{indice}]')
             app_text = app.window().texts()
