@@ -186,7 +186,3 @@ def start_simple_ultimate():
         thread_name = f"MinhaThread-{i}"
         farm = threading.Thread(target=farm_die_on_ultimate, args=(i,), name=thread_name)
         farm.start()
-
-
-
-    
