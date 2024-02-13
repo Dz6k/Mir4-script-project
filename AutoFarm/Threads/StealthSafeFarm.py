@@ -8,13 +8,16 @@ from time import sleep
 from pywinauto import Application
 import numpy as np
 from PIL import ImageGrab
-
+from tkinter import messagebox
 
 # Variáveis globais
 tentativa = False
 ultimate = True  # use ultimate set to True // don't use ultimate set to False
 possibilities = [1.75, 2, 2.25, 2.5, 2.75, 3]
 target_color = np.array([155, 9, 9])
+
+# Variável global para controle de parada
+parar_threads = False
 
 # Função para verificar a cor na região de interesse
 def check_color_in_roi(roi, target_color):
@@ -31,7 +34,7 @@ def capture_screen(hwnd):
 
 def color_check_thread(game):
     global tentativa
-    while not tentativa:
+    while not tentativa and not parar_threads:
         hwnd = win32gui.FindWindow(None, game)
         screenshot = capture_screen(hwnd)
 
@@ -51,13 +54,13 @@ def color_check_thread(game):
                 win.SendMessage(win32con.WM_KEYDOWN, 0xA0, 0)
                 sleep(0.01)
                 win.SendMessage(win32con.WM_KEYUP, 0xA0, 0)
-            sleep(0.2)
+            sleep(0.56)
             for i in range(10):
                 win.SendMessage(win32con.WM_KEYDOWN, 0x30, 0)
                 sleep(0.01)
                 win.SendMessage(win32con.WM_KEYUP, 0x30, 0)
-            tentativa = True
-        
+            break
+
 # Função principal de farm
 def stealthfarm(game):
     global tentativa
@@ -69,7 +72,7 @@ def stealthfarm(game):
     win.SendMessage(win32con.WM_KEYDOWN, 0x42, 0)
     sleep(0.1)
     win.SendMessage(win32con.WM_KEYUP, 0x42, 0)
-    while not tentativa:
+    while not tentativa and not parar_threads:
         # tab
         win.SendMessage(win32con.WM_KEYDOWN, 0x09, 0)
         sleep(0.1)
@@ -92,7 +95,7 @@ def stealthfarm(game):
         sleep(0.1)
         win.SendMessage(win32con.WM_KEYUP, 0x09, 0)
         sleep(choice(possibilities))
-        
+
         # Capturar a tela e verificar a cor nos cantos da aplicação
         screenshot = capture_screen(hwnd)
         top_left_roi = screenshot[:100, :100]
@@ -105,8 +108,11 @@ def stealthfarm(game):
             check_color_in_roi(top_right_roi, target_color) or
             check_color_in_roi(bottom_left_roi, target_color) or
             check_color_in_roi(bottom_right_roi, target_color)):
-            tentativa = True
-            
+            break
+    win.SendMessage(win32con.WM_KEYDOWN, 0x42, 0)
+    sleep(0.01)
+    win.SendMessage(win32con.WM_KEYUP, 0x42, 0)     
+    
 def stealthfarm_ultimate(game):
     global tentativa
     mkey = MouseKey()
@@ -119,7 +125,8 @@ def stealthfarm_ultimate(game):
     sleep(0.01)
     win.SendMessage(win32con.WM_KEYUP, 0x42, 0)
     
-    while not tentativa:
+    global tentativa
+    while not tentativa and not parar_threads:
         # tab
         win.SendMessage(win32con.WM_KEYDOWN, 0x09, 0)
         sleep(0.1)
@@ -158,12 +165,25 @@ def stealthfarm_ultimate(game):
             check_color_in_roi(top_right_roi, target_color) or
             check_color_in_roi(bottom_left_roi, target_color) or
             check_color_in_roi(bottom_right_roi, target_color)):
-            tentativa = True
-            
+            break
+    win.SendMessage(win32con.WM_KEYDOWN, 0x42, 0)
+    sleep(0.01)
+    win.SendMessage(win32con.WM_KEYUP, 0x42, 0)     
+    
+def stop_safe():
+    global tentativa
+    global parar_threads
+    tentativa = False
+    parar_threads = True
+
 def start_safe():
+    messagebox.showwarning(title='Aviso',
+                           message='Esta funcao ainda esta em fase de teste!\nEm breve mudaremos a maneira de deteccao!')
+    global parar_threads
+    parar_threads = False
     process = []
 
-    for indice in range(0, 10):
+    for indice in range(0, 16):
         try:
             app = Application().connect(title=f'Mir4G[{indice}]')
             app_text = app.window().texts()
@@ -177,11 +197,15 @@ def start_safe():
         color_check = threading.Thread(target=color_check_thread, args=(i,), name=thread_name)
         color_check.start()
         farm.start()
-        
-def start__safe_ultimate():
+
+def start_safe_ultimate():
+    messagebox.showwarning(title='Aviso',
+                           message='Esta funcao ainda esta em fase de teste!\nEm breve mudaremos a maneira de deteccao!')
+    global parar_threads
+    parar_threads = False
     process = []
 
-    for indice in range(0, 10):
+    for indice in range(1, 16):
         try:
             app = Application().connect(title=f'Mir4G[{indice}]')
             app_text = app.window().texts()
