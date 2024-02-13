@@ -3,6 +3,9 @@ from AutoFarm.Threads.StealthSafeFarm_select import *
 import customtkinter as tk
 
 
+
+
+# interface
 def script_gui():
     # visual
     tk.set_appearance_mode('dark')
