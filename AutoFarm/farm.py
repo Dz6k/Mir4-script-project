@@ -9,14 +9,12 @@ import threading
 from tkinter import messagebox
 import win32gui, win32ui, win32con
 
-
 POSSIBILITIES = 1.75, 2, 2.25, 2.5, 2.75, 3
-parar_threads = False
 
 def farm_die_on(game):
-    global parar_threads
     mkey = MouseKey()
     mkey.enable_failsafekill('ctrl+e')
+    
     RESOLUTION = 1920, 1080
     if pyautogui.resolution() != RESOLUTION:
         messagebox.showerror(title='Erro',
@@ -27,7 +25,6 @@ def farm_die_on(game):
     hwnd = win32gui.FindWindow(None,window_name)
     win = win32ui.CreateWindowFromHandle(hwnd)
     
-    im_live = "yes"
     sleep(0.5)
     # b
     win.SendMessage(win32con.WM_KEYDOWN, 0x42, 0)
@@ -35,7 +32,7 @@ def farm_die_on(game):
     win.SendMessage(win32con.WM_KEYUP, 0x42, 0)
     sleep(0.2)
     
-    while im_live == "yes" and not parar_threads:
+    while True:
         try:
             death = pyautogui.locateOnScreen('AutoFarm\imagens\morto.png', confidence=0.8,grayscale=False)
             sleep(10)
@@ -62,7 +59,7 @@ def farm_die_on(game):
             sleep(0.01)
             win.SendMessage(win32con.WM_KEYUP, 0x4E, 0)
             pyautogui.alert(button='ok', text=f'Você morreu as {datetime.now().strftime("%H:%M")}')
-            im_live = "no"
+            break
             
         except pyautogui.ImageNotFoundException:
             # tab
@@ -90,6 +87,7 @@ def farm_die_on_ultimate(game):
     if pyautogui.resolution() != RESOLUTION:
         pyautogui.alert(button='ok', text='Resolucao nao suportada')
         return farm_die_on_ultimate
+    
     mkey = MouseKey()
     mkey.enable_failsafekill('ctrl+e')
     
@@ -97,15 +95,13 @@ def farm_die_on_ultimate(game):
     hwnd = win32gui.FindWindow(None,window_name)
     win = win32ui.CreateWindowFromHandle(hwnd)
     
-    im_live = "yes"
     sleep(0.5)
-    
     # b
     win.SendMessage(win32con.WM_KEYDOWN, 0x42, 0)
     sleep(0.01)
     win.SendMessage(win32con.WM_KEYUP, 0x42, 0)
     sleep(0.2)
-    while im_live == "yes" and not parar_threads:
+    while True:
         try:
             death = pyautogui.locateOnScreen('AutoFarm\imagens\morto.png', confidence=0.8,grayscale=False)
             sleep(10)
@@ -132,7 +128,7 @@ def farm_die_on_ultimate(game):
             sleep(0.01)
             win.SendMessage(win32con.WM_KEYUP, 0x4E, 0)
             pyautogui.alert(button='ok', text=f'Você morreu as {datetime.now().strftime("%H:%M")}')
-            im_live = "no"
+            break
         except pyautogui.ImageNotFoundException:
             # tab
             win.SendMessage(win32con.WM_KEYDOWN, 0x09, 0)
@@ -156,11 +152,10 @@ def farm_die_on_ultimate(game):
             win.SendMessage(win32con.WM_KEYDOWN, 0x52, 0)
             sleep(0.01)
             win.SendMessage(win32con.WM_KEYUP, 0x52, 0)
-    
+   
 def start_simple():
     instancias = pyautogui.prompt(text='Numero da janela(Apenas uma janela!)', title='Seletor')
     global parar_threads
-    parar_threads = False
     if instancias:
         process = []
         for indice in str(instancias):

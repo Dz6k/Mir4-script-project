@@ -3,16 +3,12 @@ from AutoFarm.Threads.StealthSafeFarm_select import *
 import customtkinter as tk
 
 
-
-
-# interface
 def script_gui():
     # visual
     tk.set_appearance_mode('dark')
     tk.set_default_color_theme('dark-blue')
     # definindo variavel
     root = tk.CTk()
-    root.iconbitmap('1warrior.ico')
     # remove opcao "maximizar" do windows
     root.resizable(0,0)
     # titulo da janela 
@@ -32,7 +28,7 @@ def script_gui():
     
     button_stealth_farm_ultimate = tk.CTkButton(master=frame,text='Normal With Ult', command=start_ultimate)
     button_stealth_farm_ultimate.pack(padx=12,pady=10)
-    button_stealth_farm_ultimate = tk.CTkButton(master=frame,text='❌Stop Normal Script❌', command=stop_threads)
+    button_stealth_farm_ultimate = tk.CTkButton(master=frame,text='❌Stop Normal Script❌',hover_color='red', command=stop_threads)
     button_stealth_farm_ultimate.pack(padx=5,pady=5)
     label = tk.CTkLabel(master=frame, text='----------------',font=('unispace',15),text_color='#37a987')
     label.pack(pady=1,padx=1)
@@ -42,7 +38,8 @@ def script_gui():
     
     button_safe = tk.CTkButton(master=frame,text='Safe Protection With Ult', command=start_safe_ultimate)
     button_safe.pack(padx=12,pady=10)
-    button_safe = tk.CTkButton(master=frame,text='❌Stop Safe Script❌', command=stop_safe)
+    button_safe = tk.CTkButton(master=frame,text='❌Stop Safe Script❌',
+                               hover_color='red', command=stop_safe)
     button_safe.pack(padx=12,pady=10)
     
     # explicacao

@@ -14,7 +14,6 @@ from tkinter import messagebox
 
 # Variáveis globais
 tentativa = False
-ultimate = True  # use ultimate set to True // don't use ultimate set to False
 target_color = np.array([155, 9, 9])
 
 # Variável global para controle de parada
@@ -64,12 +63,16 @@ def color_check_thread(game):
 
 # Função principal de farm
 def stealthfarm(game):
+    global possibilities
     global tentativa
+    
     mkey = MouseKey()
     mkey.enable_failsafekill('ctrl+e')
+    
     window_name = f'{game}'
     hwnd = win32gui.FindWindow(None, window_name)
     win = win32ui.CreateWindowFromHandle(hwnd)
+    
     win.SendMessage(win32con.WM_KEYDOWN, 0x42, 0)
     sleep(0.1)
     win.SendMessage(win32con.WM_KEYUP, 0x42, 0)
@@ -118,12 +121,16 @@ def stealthfarm(game):
     win.SendMessage(win32con.WM_KEYUP, 0x42, 0)     
     
 def stealthfarm_ultimate(game):
+    global possibilities
     global tentativa
+    
     mkey = MouseKey()
     mkey.enable_failsafekill('ctrl+e')
+    
     window_name = f'{game}'
     hwnd = win32gui.FindWindow(None,window_name)
     win = win32ui.CreateWindowFromHandle(hwnd)
+    
     # auto atack
     win.SendMessage(win32con.WM_KEYDOWN, 0x42, 0)
     sleep(0.01)
@@ -151,14 +158,16 @@ def stealthfarm_ultimate(game):
         win.SendMessage(win32con.WM_KEYDOWN, 0x09, 0)
         sleep(0.1)
         win.SendMessage(win32con.WM_KEYUP, 0x09, 0)
-        if ultimate:    
-            win.SendMessage(win32con.WM_KEYDOWN, 0x52, 0)
-            sleep(0.01)
-            win.SendMessage(win32con.WM_KEYUP, 0x52, 0)
+        # r
+        win.SendMessage(win32con.WM_KEYDOWN, 0x52, 0)
+        sleep(0.01)
+        win.SendMessage(win32con.WM_KEYUP, 0x52, 0)
         try:
             sleep(possibilities)
         except:
             sleep(choice(possibilities))
+        
+        
         # Capturar a tela e verificar a cor nos cantos da aplicação
         screenshot = capture_screen(hwnd)
         top_left_roi = screenshot[:100, :100]
@@ -172,6 +181,7 @@ def stealthfarm_ultimate(game):
             check_color_in_roi(bottom_left_roi, target_color) or
             check_color_in_roi(bottom_right_roi, target_color)):
             break
+        
     win.SendMessage(win32con.WM_KEYDOWN, 0x42, 0)
     sleep(0.01)
     win.SendMessage(win32con.WM_KEYUP, 0x42, 0)     

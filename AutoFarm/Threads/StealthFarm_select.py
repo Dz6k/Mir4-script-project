@@ -5,58 +5,59 @@ from mousekey import MouseKey
 from time import sleep
 from pywinauto import Application
 import pyautogui
+
 # Variáveis globais
 parar_threads = False
 
 # variables
-ultimate = True # use ultimate set to True // don't use ultimate set to False
-
+possibilities = 1.75,2,2.25,2.5,2.75,3
 
 def stealthfarm_ultimate(game):
+    global possibilities
     global parar_threads
     mkey = MouseKey()
     mkey.enable_failsafekill('ctrl+e')  
     window_name = f'{game}'
     hwnd = win32gui.FindWindow(None,window_name)
     win = win32ui.CreateWindowFromHandle(hwnd)
-    
+    # b
     win.SendMessage(win32con.WM_KEYDOWN, 0x42, 0)
     sleep(0.01)
     win.SendMessage(win32con.WM_KEYUP, 0x42, 0)
     sleep(0.2)
 
     while not parar_threads:
+        # tab
         win.SendMessage(win32con.WM_KEYDOWN, 0x09, 0)
         sleep(0.1)
         win.SendMessage(win32con.WM_KEYUP, 0x09, 0)
-        
+        # loop randomizado pageup
         for i in range(randint(2,4)):
             win.SendMessage(win32con.WM_KEYUP, 0x21, 0)
             sleep(0.01)
             win.SendMessage(win32con.WM_KEYDOWN, 0x21, 0)
-        
+        # f
         sleep(0.3)
         win.SendMessage(win32con.WM_KEYDOWN, 0x46, 0)
         sleep(0.01)
         win.SendMessage(win32con.WM_KEYUP, 0x46, 0)
         
-        win.SendMessage(win32con.WM_KEYDOWN, 0x09, 0)
-        sleep(0.1)
-        win.SendMessage(win32con.WM_KEYUP, 0x09, 0)
         try:
             sleep(possibilities)
         except:
             sleep(choice(possibilities))
-        if ultimate:    
-            win.SendMessage(win32con.WM_KEYDOWN, 0x52, 0)
-            sleep(0.01)
-            win.SendMessage(win32con.WM_KEYUP, 0x52, 0)
+        # r
+        win.SendMessage(win32con.WM_KEYDOWN, 0x52, 0)
+        sleep(0.01)
+        win.SendMessage(win32con.WM_KEYUP, 0x52, 0)
+    # b
     win.SendMessage(win32con.WM_KEYDOWN, 0x42, 0)
     sleep(0.01)
     win.SendMessage(win32con.WM_KEYUP, 0x42, 0)
 
     
 def stealthfarm(game):
+    global possibilities
     global parar_threads
     mkey = MouseKey()
     mkey.enable_failsafekill('ctrl+e')
@@ -68,62 +69,53 @@ def stealthfarm(game):
     sleep(0.01)
     win.SendMessage(win32con.WM_KEYUP, 0x42, 0)
     sleep(0.2)
-
+    
     while not parar_threads:
         win.SendMessage(win32con.WM_KEYDOWN, 0x09, 0)
         sleep(0.1)
         win.SendMessage(win32con.WM_KEYUP, 0x09, 0)
         
+        # pageup
         for i in range(randint(2,4)):
             win.SendMessage(win32con.WM_KEYUP, 0x21, 0)
             sleep(0.01)
             win.SendMessage(win32con.WM_KEYDOWN, 0x21, 0)
-        
+        # f
         sleep(0.3)
         win.SendMessage(win32con.WM_KEYDOWN, 0x46, 0)
         sleep(0.01)
         win.SendMessage(win32con.WM_KEYUP, 0x46, 0)
-        
-        win.SendMessage(win32con.WM_KEYDOWN, 0x09, 0)
-        sleep(0.1)
-        win.SendMessage(win32con.WM_KEYUP, 0x09, 0)
+        # timing do loop
         try:
             sleep(possibilities)
         except:
             sleep(choice(possibilities))
+    # b
     win.SendMessage(win32con.WM_KEYDOWN, 0x42, 0)
     sleep(0.01)
     win.SendMessage(win32con.WM_KEYUP, 0x42, 0)
 
-def loop_tab(game):
-    window_name = f'{game}'
-    hwnd = win32gui.FindWindow(None,window_name)
-    win = win32ui.CreateWindowFromHandle(hwnd)
-
-    global parar_threads
-    while not parar_threads:
-        win.SendMessage(win32con.WM_KEYDOWN, 0x09, 0)
-        sleep(0.2)
-        win.SendMessage(win32con.WM_KEYUP, 0x09, 0)
-        sleep(0.2)
-
+# para threads
 def stop_threads():
-    
     global parar_threads
     parar_threads = True
 
+# criar threads
 def start():
     global parar_threads
     parar_threads = False
-    instancias = pyautogui.prompt(text='Numero das janela', title='Seletor')
+    instancias = pyautogui.prompt(text='Número das janela', title='Seletor')
     global possibilities
-    escolher_time = pyautogui.prompt(title='Loop', text='Escolha o tempo, em segundos, da troca de alvo\nCaso nao queira escolher, é so prosseguir sem digitar nada')
+    escolher_time = pyautogui.prompt(title='Loop', text='Escolha o tempo, em segundos e em numeros inteiros, da troca de alvo\nCaso nao queira escolher, é so prosseguir sem digitar nada')
     escolher_time
-
+    
+    # condicional de tempo
     if len(escolher_time) > 0:
         possibilities = int(escolher_time)
     else:
         possibilities = 1.75,2,2.25,2.5,2.75,3
+    
+    # loop procurando instancias mir4g[]
     if instancias:
         process = []
         for indice in str(instancias):
@@ -133,13 +125,13 @@ def start():
                 process += app_text
             except:
                 ...
-
+    # loop criando creads 
     for i in process:
         thread_name = f"MinhaThread-{i}"
         farm = threading.Thread(target=stealthfarm, args=(i,), name=thread_name)
-        tab = threading.Thread(target=loop_tab, args=(i,), name=thread_name)
+        
         farm.start()
-        tab.start()
+
 def start_ultimate():
     global parar_threads
     parar_threads = False
@@ -147,7 +139,7 @@ def start_ultimate():
     global possibilities
     escolher_time = pyautogui.prompt(title='Loop', text='Escolha o tempo, em segundos, da troca de alvo\nCaso nao queira escolher, é so prosseguir sem digitar nada')
     escolher_time
-
+    
     if len(escolher_time) > 0:
         possibilities = int(escolher_time)
     else:
@@ -165,7 +157,5 @@ def start_ultimate():
     for i in process:
         thread_name = f"MinhaThread-{i}"
         farm = threading.Thread(target=stealthfarm_ultimate, args=(i,), name=thread_name)
-        tab = threading.Thread(target=loop_tab, args=(i,), name=thread_name)
         
         farm.start()
-        tab.start()

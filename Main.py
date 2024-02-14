@@ -1,6 +1,6 @@
-from AutoFarm.Threads.StealthFarm import start,start_ultimate, stop_threads
-from AutoFarm.Threads.StealthSafeFarm import start_safe, start_safe_ultimate, stop_safe
-from AutoFarm.farm import start_simple, start_simple_ultimate
+from AutoFarm.Threads.StealthFarm import *
+from AutoFarm.Threads.StealthSafeFarm import *
+from AutoFarm.farm import *
 import customtkinter as ctk
 import webbrowser
 from tkinter import *
@@ -16,14 +16,13 @@ def script_gui():
     root.resizable(0,0)
     # titulo da janela 
     root.title('[Discord: dz6k]')
-    root.iconbitmap('1warrior.ico')
     # dimensao
     root.geometry('500x700')
     # aumentar escala dos widgets
     ctk.set_widget_scaling(1.1)
 
     def youtube():
-        webbrowser.open('https://youtu.be/1OR0JwDAv_Y')
+        webbrowser.open('https://youtu.be/I0722Mpk-fM')
     
     frame = ctk.CTkFrame(root)
     frame.pack(pady=10,padx=40,fill='both',expand=True)
@@ -112,7 +111,5 @@ def script_gui():
 
     root.mainloop()
     
-
-
 if __name__ == '__main__':
     script_gui()

@@ -12,7 +12,6 @@ from tkinter import messagebox
 
 # Variáveis globais
 tentativa = False
-ultimate = True  # use ultimate set to True // don't use ultimate set to False
 possibilities = [1.75, 2, 2.25, 2.5, 2.75, 3]
 target_color = np.array([155, 9, 9])
 
@@ -115,17 +114,19 @@ def stealthfarm(game):
     
 def stealthfarm_ultimate(game):
     global tentativa
+    
     mkey = MouseKey()
     mkey.enable_failsafekill('ctrl+e')
+    
     window_name = f'{game}'
     hwnd = win32gui.FindWindow(None,window_name)
     win = win32ui.CreateWindowFromHandle(hwnd)
+    
     # auto atack
     win.SendMessage(win32con.WM_KEYDOWN, 0x42, 0)
     sleep(0.01)
     win.SendMessage(win32con.WM_KEYUP, 0x42, 0)
-    
-    global tentativa
+        
     while not tentativa and not parar_threads:
         # tab
         win.SendMessage(win32con.WM_KEYDOWN, 0x09, 0)
@@ -147,10 +148,11 @@ def stealthfarm_ultimate(game):
         win.SendMessage(win32con.WM_KEYDOWN, 0x09, 0)
         sleep(0.1)
         win.SendMessage(win32con.WM_KEYUP, 0x09, 0)
-        if ultimate:    
-            win.SendMessage(win32con.WM_KEYDOWN, 0x52, 0)
-            sleep(0.01)
-            win.SendMessage(win32con.WM_KEYUP, 0x52, 0)
+        # r   
+        win.SendMessage(win32con.WM_KEYDOWN, 0x52, 0)
+        sleep(0.01)
+        win.SendMessage(win32con.WM_KEYUP, 0x52, 0)
+        
         sleep(choice(possibilities))
         
         # Capturar a tela e verificar a cor nos cantos da aplicação

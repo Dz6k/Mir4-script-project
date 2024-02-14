@@ -10,12 +10,14 @@ parar_threads = False
 
 # variables
 ultimate = True # use ultimate set to True // don't use ultimate set to False
-possibilities = 1.75,2,2.25,2.5,2.75,3
+POSSIBILITIES = 1.75,2,2.25,2.5,2.75,3
 
 def stealthfarm_ultimate(game):
     global parar_threads
+    
     mkey = MouseKey()
-    mkey.enable_failsafekill('ctrl+e')  
+    mkey.enable_failsafekill('ctrl+e') 
+     
     window_name = f'{game}'
     hwnd = win32gui.FindWindow(None,window_name)
     win = win32ui.CreateWindowFromHandle(hwnd)
@@ -43,16 +45,16 @@ def stealthfarm_ultimate(game):
         win.SendMessage(win32con.WM_KEYDOWN, 0x09, 0)
         sleep(0.1)
         win.SendMessage(win32con.WM_KEYUP, 0x09, 0)
-        sleep(choice(possibilities))
+        sleep(choice(POSSIBILITIES))
         if ultimate:    
             win.SendMessage(win32con.WM_KEYDOWN, 0x52, 0)
             sleep(0.01)
             win.SendMessage(win32con.WM_KEYUP, 0x52, 0)
+            
     win.SendMessage(win32con.WM_KEYDOWN, 0x42, 0)
     sleep(0.01)
     win.SendMessage(win32con.WM_KEYUP, 0x42, 0)
 
-    
 def stealthfarm(game):
     global parar_threads
     mkey = MouseKey()
@@ -84,24 +86,11 @@ def stealthfarm(game):
         win.SendMessage(win32con.WM_KEYDOWN, 0x09, 0)
         sleep(0.1)
         win.SendMessage(win32con.WM_KEYUP, 0x09, 0)
-        sleep(choice(possibilities))
+        sleep(choice(POSSIBILITIES))
     win.SendMessage(win32con.WM_KEYDOWN, 0x42, 0)
     sleep(0.01)
     win.SendMessage(win32con.WM_KEYUP, 0x42, 0)
 
-def loop_tab(game):
-    window_name = f'{game}'
-    hwnd = win32gui.FindWindow(None,window_name)
-    win = win32ui.CreateWindowFromHandle(hwnd)
-
-    global parar_threads
-    while not parar_threads:
-        win.SendMessage(win32con.WM_KEYDOWN, 0x09, 0)
-        sleep(0.2)
-        win.SendMessage(win32con.WM_KEYUP, 0x09, 0)
-        sleep(0.2)
-
-    
 def stop_threads():
     
     global parar_threads
@@ -122,9 +111,8 @@ def start():
     for i in process:
         thread_name = f"MinhaThread-{i}"
         farm = threading.Thread(target=stealthfarm, args=(i,), name=thread_name)
-        tab = threading.Thread(target=loop_tab, args=(i,), name=thread_name)
+        
         farm.start()
-        tab.start()
 
 def start_ultimate():
     global parar_threads
@@ -141,7 +129,5 @@ def start_ultimate():
     for i in process:
         thread_name = f"MinhaThread-{i}"
         farm = threading.Thread(target=stealthfarm_ultimate, args=(i,), name=thread_name)
-        tab = threading.Thread(target=loop_tab, args=(i,), name=thread_name)
         
         farm.start()
-        tab.start()
