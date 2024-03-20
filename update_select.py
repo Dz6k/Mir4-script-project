@@ -10,7 +10,7 @@ def executar_download():
         def download():
             url_update = requests.get(
                 'https://raw.githubusercontent.com/Dz6k/Mir4-script-project/main/version_manual.txt')
-            with open('version.txt', 'r+') as arquivo:
+            with open('version_manual.txt', 'r+') as arquivo:
                 try:
                     response = requests.get(
                         'https://raw.githubusercontent.com/Dz6k/Mir4-script-project/main/dist/manual.exe', stream=True)
