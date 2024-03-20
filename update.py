@@ -37,7 +37,6 @@ def executar_download():
 
         download_thread = Thread(target=download)
         download_thread.start()
-
     janela = tk.Tk()
     janela.title("Update")
     janela.resizable(False, False)  # Impede que a janela seja redimensionada

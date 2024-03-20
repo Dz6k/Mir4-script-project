@@ -51,23 +51,15 @@ def script_gui():
     root.mainloop()
 
 if __name__ == '__main__':
-    with open('version.txt', 'r') as arquivo:
+    with open('version_manual.txt', 'r') as arquivo:
 
         VERSION = arquivo.readline()
         url_update = requests.get(
-            'https://raw.githubusercontent.com/Dz6k/Mir4-script-project/main/version.txt')
+            'https://raw.githubusercontent.com/Dz6k/Mir4-script-project/main/version_manual.txt')
 
         if VERSION != url_update.text:
-            quest = pyautogui.confirm(title='Alert', text=f'Your version: {VERSION}\nNew version: {url_update.text}\nDo you want to upgrade?', buttons=[
-                'Download', 'Not'])
-            if quest == 'Download':
-                # auto_update()
-                subprocess.call(['update.exe'])
-                # executar_download()
-                sys.exit(0)
+            pyautogui.alert(
+                title='Alert', text=f'Your version: {VERSION}\nNew version: {url_update.text}\nDownload before start script')
 
-            else:
-                script_gui()
-                sys.exit(0)
-
+            sys.exit(0)
         script_gui()

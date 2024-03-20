@@ -9,7 +9,7 @@ def executar_download():
     def auto_update(progress_bar):
         def download():
             url_update = requests.get(
-                'https://raw.githubusercontent.com/Dz6k/Mir4-script-project/main/version.txt')
+                'https://raw.githubusercontent.com/Dz6k/Mir4-script-project/main/version_manual.txt')
             with open('version.txt', 'r+') as arquivo:
                 try:
                     response = requests.get(
@@ -34,6 +34,7 @@ def executar_download():
 
                 except Exception as e:
                     print('Error:', e)
+
 
         download_thread = Thread(target=download)
         download_thread.start()

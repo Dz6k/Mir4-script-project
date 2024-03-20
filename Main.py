@@ -124,16 +124,8 @@ if __name__ == '__main__':
             'https://raw.githubusercontent.com/Dz6k/Mir4-script-project/main/version.txt')
 
         if VERSION != url_update.text:
-            quest = pyautogui.confirm(title='Alert', text=f'Your version: {VERSION}\nNew version: {url_update.text}\nDo you want to upgrade?', buttons=[
-                'Download', 'Not'])
-            if quest == 'Download':
-                # auto_update()
-                subprocess.call(['update.exe'])
-                # executar_download()
-                sys.exit(0)
+            pyautogui.alert(
+                title='Alert', text=f'Your version: {VERSION}\nNew version: {url_update.text}\nDownload before start script')
 
-            else:
-                script_gui()
-                sys.exit(0)
-
+            sys.exit(0)
         script_gui()
