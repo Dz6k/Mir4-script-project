@@ -1,9 +1,13 @@
+import customtkinter as ctk
+import requests
+import sys
+import pyautogui
 from AutoFarm.Threads.StealthFarm import *
 from AutoFarm.Threads.StealthSafeFarm import *
 from AutoFarm.farm import *
-import customtkinter as ctk
-import webbrowser
 from tkinter import *
+import subprocess
+import webbrowser
 
 # interface
 def script_gui():
@@ -17,15 +21,15 @@ def script_gui():
     # titulo da janela 
     root.title('[Discord: dz6k]')
     # dimensao
-    root.geometry('500x700')
+    root.geometry('310x635')
     # aumentar escala dos widgets
-    ctk.set_widget_scaling(1.1)
+    # ctk.set_widget_scaling(1.1)
 
     def youtube():
         webbrowser.open('https://youtu.be/I0722Mpk-fM')
     
     frame = ctk.CTkFrame(root)
-    frame.pack(pady=10,padx=40,fill='both',expand=True)
+    frame.pack(pady=10, padx=20, fill='both', expand=True)
     
     # titulo dentro da aplicacao
     label = ctk.CTkLabel(frame,
@@ -110,6 +114,26 @@ def script_gui():
     texto.pack(padx=2,pady=1)
 
     root.mainloop()
-    
+
+
 if __name__ == '__main__':
-    script_gui()
+    with open('version.txt', 'r') as arquivo:
+
+        VERSION = arquivo.readline()
+        url_update = requests.get(
+            'https://raw.githubusercontent.com/Dz6k/Mir4-script-project/main/version.txt')
+
+        if VERSION != url_update.text:
+            quest = pyautogui.confirm(title='Alert', text=f'Your version: {VERSION}\nNew version: {url_update.text}\nDo you want to upgrade?', buttons=[
+                'Download', 'Not'])
+            if quest == 'Download':
+                # auto_update()
+                subprocess.call(['update.exe'])
+                # executar_download()
+                sys.exit(0)
+
+            else:
+                script_gui()
+                sys.exit(0)
+
+        script_gui()

@@ -1,8 +1,10 @@
+import requests
+import customtkinter as tk
+import subprocess
+import sys
 from AutoFarm.Threads.StealthFarm_select import *
 from AutoFarm.Threads.StealthSafeFarm_select import *
-import customtkinter as tk
-
-
+from update import executar_download
 def script_gui():
     # visual
     tk.set_appearance_mode('dark')
@@ -14,10 +16,10 @@ def script_gui():
     # titulo da janela 
     root.title('[Discord: dz6k]')
     # dimensao
-    root.geometry('450x430')
+    root.geometry('350x430')
 
     frame = tk.CTkFrame(master=root)
-    frame.pack(pady=20,padx=60,fill='both',expand=True)
+    frame.pack(pady=20, padx=20, fill='both', expand=True)
     
     # titulo dentro da aplicacao
     label = tk.CTkLabel(master=frame, text='Mir4 Auto Farm',font=('unispace',35),text_color='#293fa3')
@@ -49,4 +51,23 @@ def script_gui():
     root.mainloop()
 
 if __name__ == '__main__':
-    script_gui()
+    with open('version.txt', 'r') as arquivo:
+
+        VERSION = arquivo.readline()
+        url_update = requests.get(
+            'https://raw.githubusercontent.com/Dz6k/Mir4-script-project/main/version.txt')
+
+        if VERSION != url_update.text:
+            quest = pyautogui.confirm(title='Alert', text=f'Your version: {VERSION}\nNew version: {url_update.text}\nDo you want to upgrade?', buttons=[
+                'Download', 'Not'])
+            if quest == 'Download':
+                # auto_update()
+                subprocess.call(['update.exe'])
+                # executar_download()
+                sys.exit(0)
+
+            else:
+                script_gui()
+                sys.exit(0)
+
+        script_gui()

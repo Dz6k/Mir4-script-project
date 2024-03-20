@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\pedro\OneDrive\Área de Trabalho\XP\venv
+set VIRTUAL_ENV=C:\Users\pedro\OneDrive\Documentos\GitHub\Mir4-script-project\venv
 
 if not defined PROMPT set PROMPT=$P$G
 
