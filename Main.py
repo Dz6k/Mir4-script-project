@@ -6,7 +6,6 @@ from AutoFarm.Threads.StealthFarm import *
 from AutoFarm.Threads.StealthSafeFarm import *
 from AutoFarm.farm import *
 from tkinter import *
-import subprocess
 import webbrowser
 
 # interface
