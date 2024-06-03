@@ -104,7 +104,10 @@ def stop_threads():
 def start():
     global parar_threads
     parar_threads = False
-    instancias = pyautogui.prompt(text='Número das janela', title='Seletor')
+    instancias = []
+    instancias2 = pyautogui.prompt(text='Numero das janela', title='Seletor')
+    if instancias2:
+        instancias = [int(x) for x in re.split('[, ]+', instancias2.strip()) if x]
     global possibilities
     escolher_time = pyautogui.prompt(title='Loop', text='Escolha o tempo, em segundos e em numeros inteiros, da troca de alvo\nCaso nao queira escolher, é so prosseguir sem digitar nada')
     escolher_time
@@ -118,24 +121,26 @@ def start():
     # loop procurando instancias mir4g[]
     if instancias:
         process = []
-        for indice in str(instancias):
+        for indice in instancias:
             try:
                 app = Application().connect(title=f'Mir4G[{indice}]') 
                 app_text = app.window().texts() 
-                process += app_text
+                process.append(app_text)
             except:
                 ...
-    # loop criando creads 
     for i in process:
         thread_name = f"MinhaThread-{i}"
-        farm = threading.Thread(target=stealthfarm, args=(i,), name=thread_name)
+        farm = threading.Thread(target=stealthfarm_ultimate, args=(i,), name=thread_name)
         
         farm.start()
 
 def start_ultimate():
     global parar_threads
     parar_threads = False
-    instancias = pyautogui.prompt(text='Numero das janela', title='Seletor')
+    instancias = []
+    instancias2 = pyautogui.prompt(text='Numero das janela', title='Seletor')
+    if instancias2:
+        instancias = [int(x) for x in re.split('[, ]+', instancias2.strip()) if x]
     global possibilities
     escolher_time = pyautogui.prompt(title='Loop', text='Escolha o tempo, em segundos, da troca de alvo\nCaso nao queira escolher, é so prosseguir sem digitar nada')
     escolher_time
@@ -146,14 +151,13 @@ def start_ultimate():
         possibilities = 1.75,2,2.25,2.5,2.75,3
     if instancias:
         process = []
-        for indice in str(instancias):
+        for indice in instancias:
             try:
                 app = Application().connect(title=f'Mir4G[{indice}]') 
                 app_text = app.window().texts() 
-                process += app_text
+                process.append(app_text)
             except:
                 ...
-
     for i in process:
         thread_name = f"MinhaThread-{i}"
         farm = threading.Thread(target=stealthfarm_ultimate, args=(i,), name=thread_name)
