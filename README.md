@@ -2,6 +2,7 @@
 
 
 ATUALIZAÇÕES
+
 Versão 3.0.170824:
 
     1 - Alterada levemente a interface
