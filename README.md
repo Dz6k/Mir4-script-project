@@ -19,7 +19,7 @@ Versão 3.0.170824:
         - Motivo: Não estão otimizados e são redundantes, parecem muito mais funções para "encher linguiça" do que funções que de fato acrescentam alguma funcionalidade.
     
     OBS: Funcionalidades como teleporte e script de mineração estão, indeterminadamente, fora de questão por limitações da linguagem.
-    -> limitações como: Enviar clicks em coordenadas diretamente sem que bloqueie o uso do mouse do usuario, sobre o script de mineração, ele até é viável mas será bem longo, alem de implementar IA no reconhecimento de imágem eu preciso ainda pegar muitos pontos no mapa para me locomover e com python e sem acessar diretamente a memoria do jogo, fica como uma movimentacao cega, posso ate me movimentar mas 100% de certeza que vou ate o ponto especifíco. 
+    -> limitações como: Enviar clicks em coordenadas diretamente sem que bloqueie o uso do mouse do usuario, sobre o script de mineração, ele até é viável mas será bem longo, alem de implementar IA no reconhecimento de imagem, eu preciso ainda pegar muitos pontos no mapa para me locomover e com python e sem acessar diretamente a memoria do jogo, fica como uma movimentacao cega, posso ate me movimentar mas 100% de certeza que vou ate o ponto especifíco. 
 
 Versão 2.2:
 
