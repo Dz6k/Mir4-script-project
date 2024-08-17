@@ -1,3 +1,4 @@
+# type: ignore
 import threading
 import win32gui, win32ui, win32con
 from random import randint, choice
@@ -5,19 +6,19 @@ from mousekey import MouseKey
 from time import sleep
 from pywinauto import Application
 import pyautogui
+import re
+import random
 
 # Variáveis globais
 parar_threads = False
 
-# variables
-possibilities = 1.75,2,2.25,2.5,2.75,3
 
-def stealthfarm_ultimate(game):
-    global possibilities
+def stealthfarm(game, ult: bool = False):
+    possibilities = [round(random.uniform(1, 3), 3) for _ in range(10)]
     global parar_threads
     mkey = MouseKey()
     mkey.enable_failsafekill('ctrl+e')  
-    window_name = f'{game}'
+    window_name = f'{game[0]}'
     hwnd = win32gui.FindWindow(None,window_name)
     win = win32ui.CreateWindowFromHandle(hwnd)
     # b
@@ -41,67 +42,29 @@ def stealthfarm_ultimate(game):
         win.SendMessage(win32con.WM_KEYDOWN, 0x46, 0)
         sleep(0.01)
         win.SendMessage(win32con.WM_KEYUP, 0x46, 0)
-        
-        try:
-            sleep(possibilities)
-        except:
-            sleep(choice(possibilities))
-        # r
-        win.SendMessage(win32con.WM_KEYDOWN, 0x52, 0)
-        sleep(0.01)
-        win.SendMessage(win32con.WM_KEYUP, 0x52, 0)
+
+        sleep(choice(possibilities))
+
+        if ult is True:
+            # r
+            win.SendMessage(win32con.WM_KEYDOWN, 0x52, 0)
+            sleep(0.01)
+            win.SendMessage(win32con.WM_KEYUP, 0x52, 0)
     # b
     win.SendMessage(win32con.WM_KEYDOWN, 0x42, 0)
     sleep(0.01)
     win.SendMessage(win32con.WM_KEYUP, 0x42, 0)
 
-    
-def stealthfarm(game):
-    global possibilities
-    global parar_threads
-    mkey = MouseKey()
-    mkey.enable_failsafekill('ctrl+e')
-    window_name = f'{game}'
-    hwnd = win32gui.FindWindow(None,window_name)
-    win = win32ui.CreateWindowFromHandle(hwnd)
-    
-    win.SendMessage(win32con.WM_KEYDOWN, 0x42, 0)
-    sleep(0.01)
-    win.SendMessage(win32con.WM_KEYUP, 0x42, 0)
-    sleep(0.2)
-    
-    while not parar_threads:
-        win.SendMessage(win32con.WM_KEYDOWN, 0x09, 0)
-        sleep(0.1)
-        win.SendMessage(win32con.WM_KEYUP, 0x09, 0)
-        
-        # pageup
-        for i in range(randint(2,4)):
-            win.SendMessage(win32con.WM_KEYUP, 0x21, 0)
-            sleep(0.01)
-            win.SendMessage(win32con.WM_KEYDOWN, 0x21, 0)
-        # f
-        sleep(0.3)
-        win.SendMessage(win32con.WM_KEYDOWN, 0x46, 0)
-        sleep(0.01)
-        win.SendMessage(win32con.WM_KEYUP, 0x46, 0)
-        # timing do loop
-        try:
-            sleep(possibilities)
-        except:
-            sleep(choice(possibilities))
-    # b
-    win.SendMessage(win32con.WM_KEYDOWN, 0x42, 0)
-    sleep(0.01)
-    win.SendMessage(win32con.WM_KEYUP, 0x42, 0)
 
 # para threads
-def stop_threads():
+def stop_threads_manual():
     global parar_threads
     parar_threads = True
 
 # criar threads
-def start():
+
+
+def start_manual():
     global parar_threads
     parar_threads = False
     instancias = []
@@ -125,16 +88,20 @@ def start():
             try:
                 app = Application().connect(title=f'Mir4G[{indice}]') 
                 app_text = app.window().texts() 
+                # print(app)
+                # print(app_text)
                 process.append(app_text)
+                for i in process:
+                    thread_name = f"MinhaThread-{i}"
+                    farm = threading.Thread(
+                        target=stealthfarm, args=(i, False), name=thread_name)
+
+                    farm.start()
             except:
                 ...
-    for i in process:
-        thread_name = f"MinhaThread-{i}"
-        farm = threading.Thread(target=stealthfarm_ultimate, args=(i,), name=thread_name)
-        
-        farm.start()
 
-def start_ultimate():
+
+def start_ultimate_manual():
     global parar_threads
     parar_threads = False
     instancias = []
@@ -156,10 +123,11 @@ def start_ultimate():
                 app = Application().connect(title=f'Mir4G[{indice}]') 
                 app_text = app.window().texts() 
                 process.append(app_text)
+                for i in process:
+                    thread_name = f"MinhaThread-{i}"
+                    farm = threading.Thread(
+                        target=stealthfarm, args=(i, True), name=thread_name)
+
+                    farm.start()
             except:
                 ...
-    for i in process:
-        thread_name = f"MinhaThread-{i}"
-        farm = threading.Thread(target=stealthfarm_ultimate, args=(i,), name=thread_name)
-        
-        farm.start()

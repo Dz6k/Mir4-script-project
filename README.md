@@ -1,14 +1,25 @@
 ﻿# Mir4 Auto Farm
 
-Testado apenas para classes ranged e em resolução 1080p, ela de padrão vem com comando de ultar sempre que possível!
-Em breve farei demais melhorias e/ou modificações.
-
-!!!!!!
-Algumas atualizações irão ser adiadas, para isso, iniciarei a criação de uma interface gráfica amigável e a separação de algunas funções. Agradeço sua paciência,
-At.te Dz6k.
-!!!!!!
 
 ATUALIZAÇÕES
+Versão 3.0.170824:
+
+    1 - Alterada levemente a interface
+    2 - União das 2 interfaces/modos
+    3 - Correção/Mudança na maneira de atualizacao do script 
+        3.1 Agora voce nao é "obrigado" a atualizar, ficou facultativo e mais simples a atualização
+    4 - Mudança na maneira de encontrar processos e inicia-los
+        4.1 Antes para o modo manual, para aplicativos com índice maior que 9 (10 em diante)
+        4.2 Aumentada a velocidade da ativação do script: agora a cada instancia que ele acha, ele ja inicia na hora // Antes ele procurava todas e apos procurar por um numero X de vezes, ele iniciava as instânscias, agora ele inicia a partir do momento que encontra a aplicação
+        4.3 Agora enquanto ele procura as instânscias abertas para iniciar o script, ele nao fica com a interface travada.
+    5 - Remoção de opções: 
+        5.1 Modo Simples
+        5.2 Modo Safe
+        - Motivo: Não estão otimizados e são redundantes, parecem muito mais funções para "encher linguiça" do que funções que de fato acrescentam alguma funcionalidade.
+    
+    OBS: Funcionalidades como teleporte e script de mineração estão, indeterminadamente, fora de questão por limitações da linguagem.
+    -> limitações como: Enviar clicks em coordenadas diretamente sem que bloqueie o uso do mouse do usuario, sobre o script de mineração, ele até é viável mas será bem longo, alem de implementar IA no reconhecimento de imágem eu preciso ainda pegar muitos pontos no mapa para me locomover e com python e sem acessar diretamente a memoria do jogo, fica como uma movimentacao cega, posso ate me movimentar mas 100% de certeza que vou ate o ponto especifíco. 
+
 Versão 2.2:
 
     1 - Arrumado o seletor de indices Mir4: antes ele funcionava corretamente ate Mir4[9] no modo seletor
@@ -68,7 +79,5 @@ versão 1.1:
         Local de recolha de energia no "Bosques Fantasmas"da "Área do Centro Espiritual" tem que estar marcadocomo a última area "favoritada" e a janela do mir4"completa" na segunda metade do monitor(ladoesquerdo do monitor) (win+rightkey).
     4 - Adicionados alguns arquivos .png com a finalidade de cooperar para o reconhecimento de imagem! Não alterar, apagar ou trocar caso não tenha conhecimendo de como funciona.
 
-
-OBS: Todos os testes e modificações são visando uma resolução 1920x1080. Qualquer teste em outra resolução ocasionará erro caso nao altere as coordenadas.
 
 Thanks for using, improving or looking at my code! 
