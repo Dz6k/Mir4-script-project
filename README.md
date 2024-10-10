@@ -3,6 +3,19 @@
 
 ATUALIZAÇÕES
 
+Versão 4.0.101024:
+
+    1 - Refatorado todo código para Programação Orientada à Objetos
+    2 - Adicionada opção de fechar script para apenas uma janela especifica
+    3 - Interface remodelada
+    4 - Interface sobrepondo outros aplicativos
+    5 - Adicionada bind para mostrar/ocultar ('insert')
+    6 - Removido o atalho "Control + E" que terminava o script
+    7 - Adicionado botão de:
+        7.1 Fechar aplicativo forcando também o termino dos threads iniciados
+    8 - Otimazação do codigo de modo geral
+    -> Esta atualização foi para resolver um bug de que o script estaria sem funcionar para alguns usuários ou até funcionando apenas no cliente da Steam.exe! Caso voce ainda esteja enfrentando esse bug, me contate via discord: dz6k
+    
 Versão 3.0.170824:
 
     1 - Alterada levemente a interface
