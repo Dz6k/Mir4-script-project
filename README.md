@@ -3,6 +3,10 @@
 
 ATUALIZAÇÕES
 
+Versão 4.2.111024:
+
+    1 - adicionado protocolo que ao usuário fechar interface, ele ja força a execução da função de fechar todos scripts rodando
+
 Versão 4.0.101024:
 
     1 - Refatorado todo código para Programação Orientada à Objetos

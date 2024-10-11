@@ -39,7 +39,7 @@ class App(customtkinter.CTk):
         self.attributes('-topmost', True)
         self.menuon = True
         # self.menu()
-        # self.hide_window()
+        self.protocol("WM_DELETE_WINDOW", self.force_stop_and_kill)
         self.worker = {}
         self.manual_worker = {}
         self.instancias_lista = []
