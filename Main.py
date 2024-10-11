@@ -22,7 +22,7 @@ customtkinter.set_default_color_theme("blue")
 
 class App(customtkinter.CTk):
 
-    CURRENT_VERSION = 'v4.0.101024'
+    CURRENT_VERSION = 'v4.1.101024'
     HEIGHT = 400
     WIDTH = 270
     VERSAO = requests.get(
@@ -38,13 +38,13 @@ class App(customtkinter.CTk):
         self.wm_iconbitmap(r"assets\IconGroup1.ico")
         self.attributes('-topmost', True)
         self.menuon = True
-        self.menu()
-        self.hide_window()
+        # self.menu()
+        # self.hide_window()
         self.worker = {}
         self.manual_worker = {}
         self.instancias_lista = []
 
-        all_stuffs.hide(self)
+        # all_stuffs.hide(self)
         rainbow_border.start(self)
         self.Gif1 = CTkGif(self, width=500, height=500, fg_color="transparent",
                            path=r"assets\background.gif")
@@ -257,12 +257,13 @@ class App(customtkinter.CTk):
 
             self.instancias_lista.extend(novas_instancias)
 
-            self.option_menu = customtkinter.CTkOptionMenu(self, width=100,values=self.instancias_lista)
+            self.option_menu = customtkinter.CTkOptionMenu(self,bg_color="#000001",width=100,values=self.instancias_lista)
             self.option_menu.place(x=30, y=300)
+            pywinstyles.set_opacity(self.option_menu, color='#000001')
             
-            self.botao_fechar_instancia_individual = customtkinter.CTkButton(self, text='Parar instancia', width=100,command=self.parar_instancia_lista)
+            self.botao_fechar_instancia_individual = customtkinter.CTkButton(self, bg_color="#000001", text='Parar instancia', width=100,command=self.parar_instancia_lista)
             self.botao_fechar_instancia_individual.place(x=140, y=300)
-
+            pywinstyles.set_opacity(self.botao_fechar_instancia_individual, color='#000001')
             self.button_automatic_initialize.configure(state='disabled')   
             self.button_stop_script_manual_selection.configure(state='normal')
             self.switch_ultimate.configure(state='normal')
