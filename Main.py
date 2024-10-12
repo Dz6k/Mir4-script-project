@@ -1,7 +1,7 @@
 import customtkinter
 from ctkdlib.custom_widgets import *
 import pywinstyles
-import keyboard, ctypes,win32gui, win32con
+import keyboard, ctypes
 from time import sleep
 from hPyT import *
 from pywinauto import Application
@@ -14,6 +14,8 @@ import requests
 import os   
 import threading
 import re
+import sys
+import tkinter as tk
 
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
@@ -22,32 +24,29 @@ customtkinter.set_default_color_theme("blue")
 
 class App(customtkinter.CTk):
 
-    CURRENT_VERSION = 'v4.1.101024'
+    CURRENT_VERSION = 'v4.2.111024'
     HEIGHT = 400
     WIDTH = 270
     VERSAO = requests.get(
         'https://raw.githubusercontent.com/Dz6k/Mir4-script-project/main/version.txt').text
     WINDOWS_VERSION = float('.'.join(platform.version().split('.')[:2]))
-    PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), "assets")
     
     def __init__(self):
         super().__init__()
         self.title("Auto Farm")
         self.geometry(f"{App.WIDTH}x{App.HEIGHT}")
         self.resizable(False, False)
-        self.wm_iconbitmap(r"assets\IconGroup1.ico")
+        self.wm_iconbitmap(self.resource_path("IconGroup1.ico"))
         self.attributes('-topmost', True)
         self.menuon = True
-        # self.menu()
         self.protocol("WM_DELETE_WINDOW", self.force_stop_and_kill)
         self.worker = {}
         self.manual_worker = {}
         self.instancias_lista = []
 
-        # all_stuffs.hide(self)
         rainbow_border.start(self)
         self.Gif1 = CTkGif(self, width=500, height=500, fg_color="transparent",
-                           path=r"assets\background.gif")
+                           path=self.resource_path('background.gif'))
         self.Gif1.place(x=0, y=0)
         
         # manual selection widgets
@@ -82,6 +81,17 @@ class App(customtkinter.CTk):
         self.off.place(x=64, y=360)
         pywinstyles.set_opacity(self.off, color='#000001')
         self.update_script()
+    
+    @staticmethod
+    def resource_path(relative_path):
+        """ This function can can include images in compiled python
+        
+        Credits: https://www.youtube.com/watch?v=GFadq39XJqY&t=1466s"""
+        base_path = getattr(
+            sys,
+            '_MEIPASS',
+            os.path.dirname(os.path.abspath(__file__)))
+        return os.path.join(base_path, relative_path)
         
     def ultimate_setter(self, instancias, identificador):
         if identificador in instancias:
@@ -190,16 +200,7 @@ class App(customtkinter.CTk):
         except: ...
         
         self.destroy()
-            
-    def hide_window(self):
-        hwnd = win32gui.FindWindow(None, 'Auto Farm')
         
-        if hwnd:
-            style = win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE)
-            win32gui.SetWindowLong(hwnd, win32con.GWL_EXSTYLE, style | win32con.WS_EX_TOOLWINDOW & ~win32con.WS_EX_APPWINDOW)
-            
-            win32gui.ShowWindow(hwnd, win32con.SW_HIDE)   
-                
     def gui_manual(self):
         root_x = self.winfo_x()
         root_y = self.winfo_y()

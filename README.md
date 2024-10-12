@@ -1,7 +1,15 @@
 ﻿# Mir4 Auto Farm
 
+Como compilar seu exe a partir do arquivo main.py ?
+ -> pyinstaller --noconfirm --onefile --windowed --uac-admin --add-data "C:\[your relative path]\background.gif;." --add-data "C:\[your relative path]\IconGroup1.ico;."  "C:\[your relative path]\main.py"
+
 
 ATUALIZAÇÕES
+
+Versão 4.3.121024:
+
+    1 - imagens ja compilada sem a necessidade da pasta "assets"; Todavia ela será mantida no repositório por questao de organização
+    2 - Versão do main.py e do .txt ja estão sincronizadas
 
 Versão 4.2.111024:
 
