@@ -1,7 +1,8 @@
 ﻿# Mir4 Auto Farm
 
 Como compilar seu exe a partir do arquivo main.py ?
- -> pyinstaller --noconfirm --onefile --windowed --uac-admin --add-data "C:\[your relative path]\background.gif;." --add-data "C:\[your relative path]\IconGroup1.ico;."  "C:\[your relative path]\main.py"
+
+ -> pyinstaller --noconfirm --onefile --windowed --uac-admin --add-data "C:\\[your relative path]\background.gif;." --add-data "C:\\[your relative path]\IconGroup1.ico;."  "C:\\[your relative path]\main.py"
 
 
 ATUALIZAÇÕES
