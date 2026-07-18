@@ -1,11 +1,12 @@
 import customtkinter
-from ctkdlib.custom_widgets import *
+from ctkdlib.custom_widgets import rainbow_border, CTkGif
 import pywinstyles
-import keyboard, ctypes
+import keyboard
+import ctypes
 from time import sleep
-from hPyT import *
+from random import uniform
 from pywinauto import Application
-from AutoFarm.Threads.StealthFarm import *
+from AutoFarm.Threads.StealthFarm import Stealthfarm
 from plyer import notification
 from win10toast import ToastNotifier
 import platform
@@ -15,7 +16,6 @@ import os
 import threading
 import re
 import sys
-import tkinter as tk
 
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
@@ -118,20 +118,24 @@ class App(customtkinter.CTk):
             try:
                 for i in self.worker:
                     self.call_ultimate_setter()
-            except: ...
+            except Exception:
+                pass
             try:
                 for i in self.manual_worker:
                     self.call_ultimate_setter()
-            except: ...
+            except Exception:
+                pass
         else:
             try:
                 for i in self.worker:
                     self.call_ultimate_setter_off()
-            except: ...
+            except Exception:
+                pass
             try:
                 for i in self.manual_worker:
                     self.call_ultimate_setter_off()
-            except: ...
+            except Exception:
+                pass
         
     def update_script(self):
         if App.CURRENT_VERSION != App.VERSAO:
@@ -161,7 +165,7 @@ class App(customtkinter.CTk):
                 farm = threading.Thread(
                     target=worker.run)
                 farm.start()
-            except Exception as e:
+            except Exception:
                 continue
         if App.WINDOWS_VERSION < 10.0:
             notification.notify(
@@ -194,10 +198,12 @@ class App(customtkinter.CTk):
     def force_stop_and_kill(self):
         try:
             self.force_stop_auto()
-        except: ...
+        except Exception:
+            pass
         try:
             self.force_stop_manual()
-        except: ...
+        except Exception:
+            pass
         
         self.destroy()
         
@@ -280,7 +286,7 @@ class App(customtkinter.CTk):
             if len(escolher_time) > 0:
                 self.possibilities = int(escolher_time)
             else:
-                self.possibilities = [round(random.uniform(1, 3), 3) for _ in range(10)]
+                self.possibilities = [round(uniform(1, 3), 3) for _ in range(10)]
 
             if self.instancias:
                 for indice in self.instancias:
@@ -295,8 +301,8 @@ class App(customtkinter.CTk):
                             target=worker_MANUAL.run)
                         farm.start()
                         
-                    except:
-                        ...
+                    except Exception:
+                        pass
                         
                 instancias_formatadas = ', '.join(map(str, self.instancias))
                 
@@ -313,7 +319,8 @@ class App(customtkinter.CTk):
                     )
 
             return self.manual_worker
-        except: ...
+        except Exception:
+            pass
         
     def download_bot(self):
         webbrowser.open('https://github.com/Dz6k/Mir4-script-project/releases')      

@@ -1,14 +1,15 @@
-import win32gui, win32ui, win32con
-from random import randint, choice
+import win32gui
+import win32ui
+import win32con
+from random import randint, choice, uniform
 from time import sleep
-import random
 
 class Stealthfarm:
     '''farm script in all windows index Mir4G[]'''
     def __init__(self):
         self.__game: str = None
         self.__ultimate: bool = False
-        self.__POSSIBILITIES = [round(random.uniform(1, 3), 3) for _ in range(10)]
+        self.__POSSIBILITIES = [round(uniform(1, 3), 3) for _ in range(10)]
         self.__stop: bool = False
         
     # property and setter for control script
