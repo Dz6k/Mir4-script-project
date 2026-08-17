@@ -1,5 +1,4 @@
-from mir4_auto_farm.infrastructure.input import InputController
-from mir4_auto_farm.infrastructure.input import Key
+from mir4_auto_farm.infrastructure.input import InputController, Key
 
 
 class FarmCommands:
@@ -7,13 +6,13 @@ class FarmCommands:
         self.input = input_controller
 
     def basic_attack(self) -> None:
-        self.input.key_press(Key.F)
+        self.input.tap(Key.F)
 
     def target_screen(self) -> None:
-        self.input.key_press(Key.TAB)
+        self.input.tap(Key.TAB)
 
     def next_target(self) -> None:
-        self.input.key_press(Key.PAGEUP)
+        self.input.tap(Key.PAGEUP)
 
     def ultimate(self) -> None:
-        self.input.key_press(Key.R)
+        self.input.tap(Key.R)
