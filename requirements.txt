@@ -1,9 +1,0 @@
-customtkinter==5.2.2
-keyboard==0.13.5
-pywinauto==0.6.8
-requests==2.31.0
-pywin32==306
-pywinstyles
-plyer
-win10toast
-ctkdlib
