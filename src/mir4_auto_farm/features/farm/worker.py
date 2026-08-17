@@ -1,7 +1,7 @@
 from random import choice, randint, uniform
 from time import sleep
 
-from mir4_auto_farm.features.farm.commands import FarmCommands
+from .commands import FarmCommands
 
 
 class FarmWorker:
@@ -15,16 +15,9 @@ class FarmWorker:
             for _ in range(10)
         ]
 
-    def run(self, cycles: int | None = None) -> None:
-        executed_cycles = 0
-
+    def run(self) -> None:
         while not self.stop:
             self._farm_cycle()
-
-            executed_cycles += 1
-
-            if cycles is not None and executed_cycles >= cycles:
-                break
 
     def _farm_cycle(self) -> None:
         self.commands.target_screen()
