@@ -1,15 +1,14 @@
 from abc import ABC, abstractmethod
 
+from mir4_auto_farm.features.instance import Instance
+from .keys import Key
+
 
 class InputController(ABC):
-    @abstractmethod
-    def key_down(self, key: int) -> None:
-        pass
+    def __init__(self, instance: Instance):
+        self.instance = instance
 
     @abstractmethod
-    def key_up(self, key: int) -> None:
-        pass
-
-    def key_press(self, key: int) -> None:
-        self.key_down(key)
-        self.key_up(key)
+    def tap(self, key: Key) -> None:
+        """Send a key event to the instance."""
+        raise NotImplementedError

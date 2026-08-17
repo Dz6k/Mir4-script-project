@@ -1,42 +1,62 @@
-from evdev import UInput, ecodes
+import re
+import subprocess
 
-from mir4_auto_farm.infrastructure.input.base import InputController
-from mir4_auto_farm.infrastructure.input.keys import Key
+from .base import InputController
+from .keys import Key
 
 
-class LinuxInputController(InputController):
+class LinuxWindowInput(InputController):
     KEY_MAP = {
-        Key.F: ecodes.KEY_F,
-        Key.TAB: ecodes.KEY_TAB,
-        Key.PAGEUP: ecodes.KEY_PAGEUP,
-        Key.R: ecodes.KEY_R,
+        Key.F: "f",
+        Key.TAB: "Tab",
+        Key.PAGEUP: "Page_Up",
+        Key.R: "r",
     }
 
-    def __init__(self):
-        capabilities = {
-            ecodes.EV_KEY: list(self.KEY_MAP.values()),
-        }
+    def tap(self, key: Key) -> None:
+        try:
+            xdotool_key = self.KEY_MAP[key]
+        except KeyError as exc:
+            raise ValueError(f"Unsupported key: {key}") from exc
 
-        self.device = UInput(
-            capabilities,
-            name="MIR4 Auto Farm",
+        window_id = self._find_window()
+
+        subprocess.run(
+            [
+                "xdotool",
+                "key",
+                "--window",
+                window_id,
+                xdotool_key,
+            ],
+            check=True,
         )
 
-    def key_down(self, key: Key) -> None:
-        self.device.write(
-            ecodes.EV_KEY,
-            self.KEY_MAP[key],
-            1,
-        )
-        self.device.syn()
+    def _find_window(self) -> str:
+        title_pattern = f"^{re.escape(self.instance.title)}$"
 
-    def key_up(self, key: Key) -> None:
-        self.device.write(
-            ecodes.EV_KEY,
-            self.KEY_MAP[key],
-            0,
+        result = subprocess.run(
+            [
+                "xdotool",
+                "search",
+                "--name",
+                title_pattern,
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
         )
-        self.device.syn()
 
-    def close(self) -> None:
-        self.device.close()
+        windows = result.stdout.strip().splitlines()
+
+        if not windows:
+            raise LookupError(
+                f"Window not found: {self.instance.title}"
+            )
+
+        if len(windows) > 1:
+            raise RuntimeError(
+                f"Multiple windows found: {self.instance.title}"
+            )
+
+        return windows[0]
