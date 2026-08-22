@@ -8,7 +8,6 @@ authors = [
 ]
 requires-python = ">=3.11"
 dependencies = [
-    "evdev>=1.9.3",
     "pyside6>=6.11.1",
     "pywin32>=312; sys_platform == 'win32'",
 ]
