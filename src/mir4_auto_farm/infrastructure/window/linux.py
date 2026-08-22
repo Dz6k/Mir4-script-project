@@ -2,6 +2,7 @@ import json
 import subprocess
 
 from mir4_auto_farm.features.instance import Instance
+
 from .base import WindowDiscovery
 
 
@@ -42,6 +43,4 @@ class HyprlandWindowDiscovery(WindowDiscovery):
         try:
             return json.loads(result.stdout)
         except json.JSONDecodeError as exc:
-            raise RuntimeError(
-                "Hyprland returned invalid client data."
-            ) from exc
+            raise RuntimeError("Hyprland returned invalid client data.") from exc

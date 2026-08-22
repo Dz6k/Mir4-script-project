@@ -6,11 +6,11 @@ from .linux import LinuxWindowInput
 
 __all__ = [
     "InputController",
-    "LinuxWindowInput",
     "Key",
-    ]
+    "LinuxWindowInput",
+]
 
 if sys.platform == "win32":
-    from .windows import WindowsWindowInput
+    from .windows import WindowsWindowInput as WindowsWindowInput
 
     __all__.append("WindowsWindowInput")

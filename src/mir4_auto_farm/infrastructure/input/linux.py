@@ -1,12 +1,13 @@
 import re
 import subprocess
+from typing import ClassVar
 
 from .base import InputController
 from .keys import Key
 
 
 class LinuxWindowInput(InputController):
-    KEY_MAP = {
+    KEY_MAP: ClassVar[dict[Key, str]] = {
         Key.F: "f",
         Key.TAB: "Tab",
         Key.PAGEUP: "Page_Up",
@@ -50,13 +51,9 @@ class LinuxWindowInput(InputController):
         windows = result.stdout.strip().splitlines()
 
         if not windows:
-            raise LookupError(
-                f"Window not found: {self.instance.title}"
-            )
+            raise LookupError(f"Window not found: {self.instance.title}")
 
         if len(windows) > 1:
-            raise RuntimeError(
-                f"Multiple windows found: {self.instance.title}"
-            )
+            raise RuntimeError(f"Multiple windows found: {self.instance.title}")
 
         return windows[0]

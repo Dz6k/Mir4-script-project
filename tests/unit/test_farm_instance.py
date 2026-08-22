@@ -1,5 +1,4 @@
-from mir4_auto_farm.features.instance import Instance
-from mir4_auto_farm.features.instance import FarmInstance
+from mir4_auto_farm.features.instance import FarmInstance, Instance
 from mir4_auto_farm.infrastructure.input import InputController
 
 
@@ -25,6 +24,7 @@ def test_farm_instance_creation():
     assert farm.ultimate is False
     assert farm.stopped is False
 
+
 def test_farm_instance_ultimate():
     instance = Instance(
         title="Mir4G[0]",
@@ -39,6 +39,7 @@ def test_farm_instance_ultimate():
 
     assert farm.ultimate is True
 
+
 def test_farm_instance_stop():
     instance = Instance(
         title="Mir4G[0]",
@@ -52,6 +53,7 @@ def test_farm_instance_stop():
     farm.stop()
 
     assert farm.stopped is True
+
 
 def test_farm_instance_cycle_delay():
 

@@ -10,8 +10,8 @@ from PySide6.QtWidgets import (
 
 from mir4_auto_farm.features.canvas import Canvas
 from mir4_auto_farm.features.instance import (
-    Instance,
     FarmInstance,
+    Instance,
 )
 from mir4_auto_farm.features.manager import FarmManager
 from mir4_auto_farm.infrastructure.input import (
@@ -20,13 +20,10 @@ from mir4_auto_farm.infrastructure.input import (
 
 
 class MainWindow(QMainWindow):
-
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle(
-            "MIR4 Auto Farm"
-        )
+        self.setWindowTitle("MIR4 Auto Farm")
 
         self.setMinimumSize(
             700,
@@ -43,92 +40,52 @@ class MainWindow(QMainWindow):
 
         central = QWidget()
 
-        self.setCentralWidget(
-            central
-        )
+        self.setCentralWidget(central)
 
-        layout = QVBoxLayout(
-            central
-        )
+        layout = QVBoxLayout(central)
 
-        layout.addWidget(
-            self.canvas
-        )
+        layout.addWidget(self.canvas)
 
         controls = QHBoxLayout()
 
         self.instances_input = QLineEdit()
-        self.instances_input.setPlaceholderText(
-            "Ex: 1, 3, 7"
-        )
+        self.instances_input.setPlaceholderText("Ex: 1, 3, 7")
 
         self.delay_input = QLineEdit()
-        self.delay_input.setPlaceholderText(
-            "Delay ciclo (seg)"
-        )
+        self.delay_input.setPlaceholderText("Delay ciclo (seg)")
 
-        self.start_button = QPushButton(
-            "Add Instances"
-        )
+        self.start_button = QPushButton("Add Instances")
 
-        self.start_button.clicked.connect(
-            self.create_instances
-        )
+        self.start_button.clicked.connect(self.create_instances)
 
-        self.stop_all_button = QPushButton(
-            "Stop All"
-        )
+        self.stop_all_button = QPushButton("Stop All")
 
-        self.stop_all_button.clicked.connect(
-            self.stop_all
-        )
+        self.stop_all_button.clicked.connect(self.stop_all)
 
-        controls.addWidget(
-            QLabel("Instâncias:")
-        )
+        controls.addWidget(QLabel("Instâncias:"))
 
-        controls.addWidget(
-            self.instances_input
-        )
+        controls.addWidget(self.instances_input)
 
-        controls.addWidget(
-            QLabel("Delay:")
-        )
+        controls.addWidget(QLabel("Delay:"))
 
-        controls.addWidget(
-            self.delay_input
-        )
+        controls.addWidget(self.delay_input)
 
-        controls.addWidget(
-            self.start_button
-        )
+        controls.addWidget(self.start_button)
 
-        controls.addWidget(
-            self.stop_all_button
-        )
+        controls.addWidget(self.stop_all_button)
 
-        layout.addLayout(
-            controls
-        )
+        layout.addLayout(controls)
 
     def create_instances(self):
 
-        text = (
-            self.instances_input
-            .text()
-            .strip()
-        )
+        text = self.instances_input.text().strip()
 
         if not text:
             return
 
         cycle_delay = 0
 
-        delay_text = (
-            self.delay_input
-            .text()
-            .strip()
-        )
+        delay_text = self.delay_input.text().strip()
 
         if delay_text:
             try:
@@ -136,11 +93,7 @@ class MainWindow(QMainWindow):
             except ValueError:
                 cycle_delay = 0
 
-        for value in (
-            text.replace(",", " ")
-            .split()
-        ):
-
+        for value in text.replace(",", " ").split():
             try:
                 index = int(value)
 
@@ -154,9 +107,7 @@ class MainWindow(QMainWindow):
                 pid=0,
             )
 
-            input_controller = WindowsWindowInput(
-                instance
-            )
+            input_controller = WindowsWindowInput(instance)
 
             farm_instance = FarmInstance(
                 instance,
@@ -164,17 +115,11 @@ class MainWindow(QMainWindow):
                 cycle_delay=cycle_delay,
             )
 
-            self.farm_manager.add(
-                farm_instance
-            )
+            self.farm_manager.add(farm_instance)
 
-            self.canvas.add_instance(
-                farm_instance
-            )
+            self.canvas.add_instance(farm_instance)
 
-            self.farm_manager.start(
-                title
-            )
+            self.farm_manager.start(title)
 
         self.instances_input.clear()
 

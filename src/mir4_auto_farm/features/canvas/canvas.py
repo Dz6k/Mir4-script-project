@@ -23,58 +23,34 @@ class InstanceRow(QFrame):
 
         self.farm_instance = farm_instance
 
-        self.setFrameShape(
-            QFrame.StyledPanel
-        )
+        self.setFrameShape(QFrame.StyledPanel)
 
         layout = QHBoxLayout(self)
 
-        self.instance_label = QLabel(
-            farm_instance.instance.title
-        )
+        self.instance_label = QLabel(farm_instance.instance.title)
 
-        self.status_label = QLabel(
-            "Stopped"
-        )
+        self.status_label = QLabel("Stopped")
 
-        self.ultimate_button = QPushButton(
-            "Ultimate: OFF"
-        )
+        self.ultimate_button = QPushButton("Ultimate: OFF")
 
         self.ultimate_button.setCheckable(True)
-        self.ultimate_button.toggled.connect(
-            self.toggle_ultimate
-        )
+        self.ultimate_button.toggled.connect(self.toggle_ultimate)
 
-        self.start_button = QPushButton(
-            "Start"
-        )
+        self.start_button = QPushButton("Start")
 
-        self.stop_button = QPushButton(
-            "Stop"
-        )
+        self.stop_button = QPushButton("Stop")
 
-        layout.addWidget(
-            self.instance_label
-        )
+        layout.addWidget(self.instance_label)
 
         layout.addStretch()
 
-        layout.addWidget(
-            self.status_label
-        )
+        layout.addWidget(self.status_label)
 
-        layout.addWidget(
-            self.ultimate_button
-        )
+        layout.addWidget(self.ultimate_button)
 
-        layout.addWidget(
-            self.start_button
-        )
+        layout.addWidget(self.start_button)
 
-        layout.addWidget(
-            self.stop_button
-        )
+        layout.addWidget(self.stop_button)
 
     def toggle_ultimate(
         self,
@@ -82,11 +58,7 @@ class InstanceRow(QFrame):
     ):
         self.farm_instance.ultimate = enabled
 
-        self.ultimate_button.setText(
-            "Ultimate: ON"
-            if enabled
-            else "Ultimate: OFF"
-        )
+        self.ultimate_button.setText("Ultimate: ON" if enabled else "Ultimate: OFF")
 
 
 class Canvas(QWidget):
@@ -95,10 +67,7 @@ class Canvas(QWidget):
 
         self.farm_manager = FarmManager()
 
-        self.instances: dict[
-            str,
-            InstanceRow
-        ] = {}
+        self.instances: dict[str, InstanceRow] = {}
 
         self.setup_ui()
 
@@ -106,13 +75,9 @@ class Canvas(QWidget):
 
         layout = QVBoxLayout(self)
 
-        title = QLabel(
-            "Instâncias"
-        )
+        title = QLabel("Instâncias")
 
-        title.setStyleSheet(
-            "font-size: 18px; font-weight: bold;"
-        )
+        title.setStyleSheet("font-size: 18px; font-weight: bold;")
 
         layout.addWidget(title)
 
@@ -120,39 +85,23 @@ class Canvas(QWidget):
 
         self.scroll.setWidgetResizable(True)
 
-        self.scroll.setFrameShape(
-            QFrame.NoFrame
-        )
+        self.scroll.setFrameShape(QFrame.NoFrame)
 
         self.instance_container = QWidget()
 
-        self.instance_layout = QVBoxLayout(
-            self.instance_container
-        )
+        self.instance_layout = QVBoxLayout(self.instance_container)
 
-        self.instance_layout.setAlignment(
-            Qt.AlignTop
-        )
+        self.instance_layout.setAlignment(Qt.AlignTop)
 
-        self.empty_label = QLabel(
-            "Nenhuma instância ativa"
-        )
+        self.empty_label = QLabel("Nenhuma instância ativa")
 
-        self.empty_label.setAlignment(
-            Qt.AlignCenter
-        )
+        self.empty_label.setAlignment(Qt.AlignCenter)
 
-        self.instance_layout.addWidget(
-            self.empty_label
-        )
+        self.instance_layout.addWidget(self.empty_label)
 
-        self.scroll.setWidget(
-            self.instance_container
-        )
+        self.scroll.setWidget(self.instance_container)
 
-        layout.addWidget(
-            self.scroll
-        )
+        layout.addWidget(self.scroll)
 
     def add_instance(
         self,
@@ -167,57 +116,39 @@ class Canvas(QWidget):
         if not self.instances:
             self.empty_label.hide()
 
-        row = InstanceRow(
-            farm_instance
-        )
+        row = InstanceRow(farm_instance)
 
-        row.start_button.clicked.connect(
-            lambda: self.start_instance(title)
-        )
+        row.start_button.clicked.connect(lambda: self.start_instance(title))
 
-        row.stop_button.clicked.connect(
-            lambda: self.stop_instance(title)
-        )
+        row.stop_button.clicked.connect(lambda: self.stop_instance(title))
 
         self.instances[title] = row
 
-        self.farm_manager.add(
-            farm_instance
-        )
+        self.farm_manager.add(farm_instance)
 
-        self.instance_layout.addWidget(
-            row
-        )
+        self.instance_layout.addWidget(row)
 
     def start_instance(
         self,
         title: str,
     ):
 
-        self.farm_manager.start(
-            title
-        )
+        self.farm_manager.start(title)
 
         row = self.instances[title]
 
-        row.status_label.setText(
-            "Running"
-        )
+        row.status_label.setText("Running")
 
     def stop_instance(
         self,
         title: str,
     ):
 
-        self.farm_manager.stop(
-            title
-        )
+        self.farm_manager.stop(title)
 
         row = self.instances[title]
 
-        row.status_label.setText(
-            "Stopped"
-        )
+        row.status_label.setText("Stopped")
 
     def remove_instance(
         self,
@@ -241,7 +172,5 @@ class Canvas(QWidget):
 
         self.farm_manager.stop_all()
 
-        for title in list(
-            self.instances
-        ):
+        for title in list(self.instances):
             self.remove_instance(title)

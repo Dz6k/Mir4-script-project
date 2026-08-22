@@ -4,4 +4,4 @@ from .worker import FarmWorker
 __all__ = [
     "FarmCommands",
     "FarmWorker",
-    ]
+]

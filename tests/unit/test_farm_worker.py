@@ -5,7 +5,6 @@ from mir4_auto_farm.features.farm import (
 
 
 class FakeFarmCommands(FarmCommands):
-
     def __init__(self):
         self.calls = []
 
@@ -41,9 +40,7 @@ def test_farm_worker_cycle(monkeypatch):
 
     assert commands.calls[-1] == "target_screen"
 
-    next_target_calls = commands.calls.count(
-        "next_target"
-    )
+    next_target_calls = commands.calls.count("next_target")
 
     assert 2 <= next_target_calls <= 4
 

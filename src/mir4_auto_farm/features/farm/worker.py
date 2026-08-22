@@ -1,12 +1,10 @@
 from random import choice, randint, uniform
 from threading import Event
-from time import sleep
 
 from .commands import FarmCommands
 
 
 class FarmWorker:
-
     def __init__(
         self,
         commands: FarmCommands,
@@ -17,10 +15,7 @@ class FarmWorker:
         self.stop_event = Event()
 
         # Randomização humana dos tempos internos
-        self.possibilities = [
-            round(uniform(1, 3), 3)
-            for _ in range(10)
-        ]
+        self.possibilities = [round(uniform(1, 3), 3) for _ in range(10)]
 
         # Delay fixo configurado pelo usuário
         self.cycle_delay = cycle_delay

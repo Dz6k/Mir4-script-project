@@ -24,10 +24,7 @@ class FarmManager:
 
         current_thread = self.threads.get(title)
 
-        if (
-            current_thread
-            and current_thread.is_alive()
-        ):
+        if current_thread and current_thread.is_alive():
             return
 
         thread = Thread(

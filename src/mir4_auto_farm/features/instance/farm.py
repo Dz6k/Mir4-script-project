@@ -2,7 +2,6 @@ from mir4_auto_farm.features.farm import (
     FarmCommands,
     FarmWorker,
 )
-
 from mir4_auto_farm.infrastructure.input import (
     InputController,
 )
@@ -11,7 +10,6 @@ from .models import Instance
 
 
 class FarmInstance:
-
     def __init__(
         self,
         instance: Instance,

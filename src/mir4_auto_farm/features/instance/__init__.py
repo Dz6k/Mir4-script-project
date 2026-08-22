@@ -1,7 +1,7 @@
-from .models import Instance
 from .farm import FarmInstance
+from .models import Instance
 
 __all__ = [
-    "Instance",
     "FarmInstance",
+    "Instance",
 ]

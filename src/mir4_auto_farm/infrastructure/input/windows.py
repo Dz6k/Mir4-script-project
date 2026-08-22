@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 import win32con
 import win32gui
 
@@ -6,7 +8,7 @@ from .keys import Key
 
 
 class WindowsWindowInput(InputController):
-    KEY_MAP = {
+    KEY_MAP: ClassVar[dict[Key, str]] = {
         Key.F: ord("F"),
         Key.TAB: win32con.VK_TAB,
         Key.PAGEUP: win32con.VK_PRIOR,
@@ -39,8 +41,6 @@ class WindowsWindowInput(InputController):
         )
 
         if not window:
-            raise RuntimeError(
-                f"Window not found: {self.instance.title}"
-            )
+            raise RuntimeError(f"Window not found: {self.instance.title}")
 
         return window

@@ -1,6 +1,5 @@
 from mir4_auto_farm.features.instance import Instance
-from mir4_auto_farm.infrastructure.input import Key
-from mir4_auto_farm.infrastructure.input import LinuxWindowInput
+from mir4_auto_farm.infrastructure.input import Key, LinuxWindowInput
 
 
 def test_send_f_to_mir4():

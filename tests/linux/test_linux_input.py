@@ -1,5 +1,5 @@
-from mir4_auto_farm.features.instance import Instance
 from mir4_auto_farm.features.farm import FarmCommands
+from mir4_auto_farm.features.instance import Instance
 from mir4_auto_farm.infrastructure.input import Key, LinuxWindowInput
 
 
