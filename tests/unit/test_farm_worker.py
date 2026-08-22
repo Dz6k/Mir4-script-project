@@ -1,7 +1,11 @@
-from mir4_auto_farm.features.farm import FarmCommands, FarmWorker
+from mir4_auto_farm.features.farm import (
+    FarmCommands,
+    FarmWorker,
+)
 
 
 class FakeFarmCommands(FarmCommands):
+
     def __init__(self):
         self.calls = []
 
@@ -19,36 +23,54 @@ class FakeFarmCommands(FarmCommands):
 
 
 def test_farm_worker_cycle(monkeypatch):
+
     commands = FakeFarmCommands()
+
     worker = FarmWorker(commands)
 
     monkeypatch.setattr(
         "mir4_auto_farm.features.farm.worker.sleep",
-        lambda _: None,
+        lambda *_: None,
     )
 
     worker._farm_cycle()
 
     assert commands.calls[0] == "target_screen"
+
     assert commands.calls[-2] == "basic_attack"
+
     assert commands.calls[-1] == "target_screen"
 
-    next_target_calls = commands.calls.count("next_target")
+    next_target_calls = commands.calls.count(
+        "next_target"
+    )
 
     assert 2 <= next_target_calls <= 4
 
 
 def test_farm_worker_cycle_with_ultimate(monkeypatch):
+
     commands = FakeFarmCommands()
+
     worker = FarmWorker(commands)
 
     worker.ultimate = True
 
     monkeypatch.setattr(
         "mir4_auto_farm.features.farm.worker.sleep",
-        lambda _: None,
+        lambda *_: None,
     )
 
     worker._farm_cycle()
 
     assert commands.calls[-1] == "ultimate"
+
+
+def test_farm_worker_custom_cycle_delay():
+
+    worker = FarmWorker(
+        FakeFarmCommands(),
+        cycle_delay=5,
+    )
+
+    assert worker.cycle_delay == 5

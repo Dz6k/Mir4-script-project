@@ -52,3 +52,20 @@ def test_farm_instance_stop():
     farm.stop()
 
     assert farm.stopped is True
+
+def test_farm_instance_cycle_delay():
+
+    instance = Instance(
+        title="Mir4G[0]",
+        pid=0,
+    )
+
+    input_controller = FakeInputController(instance)
+
+    farm = FarmInstance(
+        instance,
+        input_controller,
+        cycle_delay=5,
+    )
+
+    assert farm.worker.cycle_delay == 5
