@@ -3,6 +3,7 @@ from PySide6.QtWidgets import (
     QFrame,
     QHBoxLayout,
     QLabel,
+    QLineEdit,
     QPushButton,
     QScrollArea,
     QVBoxLayout,
@@ -16,6 +17,7 @@ class InstanceRow(QFrame):
     def __init__(
         self,
         farm_instance: FarmInstance,
+        show_help: bool = False,
         parent=None,
     ):
         super().__init__(parent)
@@ -29,6 +31,34 @@ class InstanceRow(QFrame):
         self.instance_label = QLabel(farm_instance.instance.title)
 
         self.status_label = QLabel("Stopped")
+
+        self.delay_input = QLineEdit(
+            str(farm_instance.cycle_delay)
+        )
+        self.delay_input.setFixedWidth(70)
+        self.delay_input.returnPressed.connect(
+            self.update_cycle_delay
+        )
+
+        self.help_label = QLabel("?")
+        self.help_label.setStyleSheet("""
+            QLabel {
+                border: 1px solid gray;
+                border-radius: 10px;
+                padding: 0px 5px;
+                font-weight: bold
+            }
+        """)
+
+        self.help_label.setToolTip(
+            "Delay do ciclo:\n"
+            "Define o tempo de espera entre os ciclos de agro.\n"
+            "Pressione Enter para aplicar."
+        )
+
+        self.help_label
+
+        self.help_label.setVisible(show_help)
 
         self.ultimate_button = QPushButton("Ultimate: OFF")
 
@@ -48,6 +78,10 @@ class InstanceRow(QFrame):
 
         layout.addWidget(self.status_label)
 
+        layout.addWidget(self.delay_input)
+
+        layout.addWidget(self.help_label)
+
         layout.addWidget(self.ultimate_button)
 
         layout.addWidget(self.farm_button)
@@ -58,6 +92,26 @@ class InstanceRow(QFrame):
         self.farm_instance.ultimate = enabled
         self.ultimate_button.setText("Ultimate: ON" if enabled else "Ultimate: OFF")
 
+    def update_cycle_delay(self):
+        try:
+            value = float(self.delay_input.text())
+        except ValueError:
+            self.delay_input.setText(
+                str(self.farm_instance.cycle_delay)
+            )
+            return
+
+        if value < 0:
+            self.delay_input.setText(
+                str(self.farm_instance.cycle_delay)
+            )
+            return
+
+        self.farm_instance.cycle_delay = value
+        self.delay_input.setText(
+            str(self.farm_instance.cycle_delay)
+        )
+    
     def toggle_running(self, enabled: bool):
         if enabled:
             self.farm_instance.start()
@@ -133,7 +187,7 @@ class Canvas(QWidget):
         if not self.instances:
             self.empty_label.hide()
 
-        row = InstanceRow(farm_instance)
+        row = InstanceRow(farm_instance, show_help=not self.instances,)
 
         row.remove_button.clicked.connect(
             lambda: self.remove_instance(title)

@@ -8,6 +8,14 @@ from mir4_auto_farm.app import MainWindow
 def main():
     app = QApplication(sys.argv)
 
+    app.setStyleSheet("""
+        QToolTip {
+            background-color: #fffde7;
+            border: 1px solid #000000;
+        }
+    """)
+
+
     window = MainWindow()
     window.show()
 

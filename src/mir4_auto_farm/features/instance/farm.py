@@ -20,14 +20,23 @@ class FarmInstance:
     ):
         self.instance = instance
         self.commands = FarmCommands(input_controller)
-        self.cycle_delay = cycle_delay
+        self._cycle_delay = cycle_delay
 
         self.worker = FarmWorker(
             self.commands,
-            self.cycle_delay,
+            self._cycle_delay,
         )
 
         self.thread: Thread | None = None
+
+    @property
+    def cycle_delay(self) -> float:
+        return self._cycle_delay
+
+    @cycle_delay.setter
+    def cycle_delay(self, value: float) -> None:
+        self._cycle_delay = value
+        self.worker.cycle_delay = value
 
     @property
     def ultimate(self) -> bool:
