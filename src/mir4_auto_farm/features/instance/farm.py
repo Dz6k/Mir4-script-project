@@ -8,6 +8,8 @@ from mir4_auto_farm.infrastructure.input import (
 
 from .models import Instance
 
+from threading import Thread
+
 
 class FarmInstance:
     def __init__(
@@ -18,13 +20,14 @@ class FarmInstance:
     ):
         self.instance = instance
         self.commands = FarmCommands(input_controller)
-
         self.cycle_delay = cycle_delay
 
         self.worker = FarmWorker(
             self.commands,
             self.cycle_delay,
         )
+
+        self.thread: Thread | None = None
 
     @property
     def ultimate(self) -> bool:
@@ -38,11 +41,18 @@ class FarmInstance:
         self.worker.ultimate = enabled
 
     @property
+    def running(self) -> bool:
+        return bool( self.thread and self.thread.is_alive())
+
+    @property
     def stopped(self) -> bool:
         return self.worker.stop_event.is_set()
 
-    def start(self) -> None:
-        if not self.worker.stop_event.is_set():
+    def run(self) -> None:
+        self.worker.run()
+
+    def start(self):
+        if self.running:
             return
 
         self.worker = FarmWorker(
@@ -50,11 +60,16 @@ class FarmInstance:
             self.cycle_delay,
         )
 
-        self.worker.run()
+        self.thread = Thread(
+            target=self.worker.run,
+            daemon=True,
+        )
 
-    def run(self) -> None:
-        self.worker.stop_event.clear()
-        self.worker.run()
+        self.thread.start()
 
-    def stop(self) -> None:
+    def stop(self):
         self.worker.stop()
+
+        if self.thread:
+            self.thread.join(timeout=1)
+            self.thread = None

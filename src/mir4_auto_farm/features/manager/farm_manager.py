@@ -1,61 +1,23 @@
-from threading import Thread
-
-from mir4_auto_farm.features.instance import FarmInstance
-
-
 class FarmManager:
     def __init__(self):
-        self.instances: dict[str, FarmInstance] = {}
-        self.threads: dict[str, Thread] = {}
+        self.instances = {}
 
-    def add(
-        self,
-        farm_instance: FarmInstance,
-    ) -> None:
+    def add(self, farm_instance):
         title = farm_instance.instance.title
-
         self.instances[title] = farm_instance
 
-    def start(
-        self,
-        title: str,
-    ) -> None:
-        farm_instance = self.instances[title]
+    def start(self, title):
+        self.instances[title].start()
 
-        current_thread = self.threads.get(title)
+    def stop(self, title):
+        self.instances[title].stop()
 
-        if current_thread and current_thread.is_alive():
-            return
+    def stop_all(self):
+        for instance in self.instances.values():
+            instance.stop()
 
-        thread = Thread(
-            target=farm_instance.run,
-            daemon=True,
-        )
+    def remove(self, title):
+        instance = self.instances.pop(title, None)
 
-        self.threads[title] = thread
-
-        thread.start()
-
-    def stop(
-        self,
-        title: str,
-    ) -> None:
-
-        farm_instance = self.instances[title]
-
-        farm_instance.stop()
-
-        thread = self.threads.get(title)
-
-        if thread:
-            thread.join(timeout=1)
-
-    def stop_all(self) -> None:
-        for farm_instance in self.instances.values():
-            farm_instance.stop()
-
-    def get(
-        self,
-        title: str,
-    ) -> FarmInstance:
-        return self.instances[title]
+        if instance:
+            instance.stop()

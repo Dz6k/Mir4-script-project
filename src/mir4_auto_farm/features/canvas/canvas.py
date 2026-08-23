@@ -10,7 +10,6 @@ from PySide6.QtWidgets import (
 )
 
 from mir4_auto_farm.features.instance import FarmInstance
-from mir4_auto_farm.features.manager import FarmManager
 
 
 class InstanceRow(QFrame):
@@ -36,9 +35,12 @@ class InstanceRow(QFrame):
         self.ultimate_button.setCheckable(True)
         self.ultimate_button.toggled.connect(self.toggle_ultimate)
 
-        self.start_button = QPushButton("Start")
+        self.farm_button = QPushButton("Agro: OFF")
+        self.farm_button.setCheckable(True)
+        self.farm_button.toggled.connect(self.toggle_running)
 
-        self.stop_button = QPushButton("Stop")
+        self.remove_button = QPushButton("×")
+        self.remove_button.setFixedWidth(30)
 
         layout.addWidget(self.instance_label)
 
@@ -48,22 +50,37 @@ class InstanceRow(QFrame):
 
         layout.addWidget(self.ultimate_button)
 
-        layout.addWidget(self.start_button)
+        layout.addWidget(self.farm_button)
 
-        layout.addWidget(self.stop_button)
+        layout.addWidget(self.remove_button)
 
-    def toggle_ultimate(
-        self,
-        enabled: bool,
-    ):
+    def toggle_ultimate(self, enabled: bool,):
         self.farm_instance.ultimate = enabled
-
         self.ultimate_button.setText("Ultimate: ON" if enabled else "Ultimate: OFF")
+
+    def toggle_running(self, enabled: bool):
+        if enabled:
+            self.farm_instance.start()
+        else:
+            self.farm_instance.stop()
+
+        self.update_status()
+
+    def update_status(self):
+        if self.farm_instance.running:
+            self.status_label.setText("Running")
+            self.farm_button.setText("Agro: ON")
+        else:
+            self.status_label.setText("Stopped")
+            self.farm_button.setText("Agro: OFF")
 
 
 class Canvas(QWidget):
+    
     def __init__(self):
         super().__init__()
+        
+        from mir4_auto_farm.features.manager.farm_manager import FarmManager
 
         self.farm_manager = FarmManager()
 
@@ -118,9 +135,9 @@ class Canvas(QWidget):
 
         row = InstanceRow(farm_instance)
 
-        row.start_button.clicked.connect(lambda: self.start_instance(title))
-
-        row.stop_button.clicked.connect(lambda: self.stop_instance(title))
+        row.remove_button.clicked.connect(
+            lambda: self.remove_instance(title)
+        )
 
         self.instances[title] = row
 
@@ -128,32 +145,8 @@ class Canvas(QWidget):
 
         self.instance_layout.addWidget(row)
 
-    def start_instance(
-        self,
-        title: str,
-    ):
-
-        self.farm_manager.start(title)
-
-        row = self.instances[title]
-
-        row.status_label.setText("Running")
-
-    def stop_instance(
-        self,
-        title: str,
-    ):
-
-        self.farm_manager.stop(title)
-
-        row = self.instances[title]
-
-        row.status_label.setText("Stopped")
-
-    def remove_instance(
-        self,
-        title: str,
-    ):
+    def remove_instance(self, title: str):
+        self.farm_manager.remove(title)
 
         row = self.instances.pop(
             title,
