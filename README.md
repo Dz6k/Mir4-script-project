@@ -1,110 +1,97 @@
-﻿# Mir4 Auto Farm
+# MIR4 Auto Farm
 
-Como compilar seu exe a partir do arquivo main.py ?
+Aplicação desktop em Python para automatizar ciclos de farm do MIR4 em múltiplas instâncias, com interface PySide6 e execução concorrente por instância.
 
- -> pyinstaller --noconfirm --onefile --windowed --uac-admin --add-data "C:\\[your relative path]\background.gif;." --add-data "C:\\[your relative path]\IconGroup1.ico;."  "C:\\[your relative path]\main.py"
+## Visão geral
 
+O projeto separa a interface gráfica, o gerenciamento das instâncias, a execução do farm, os comandos de automação e a infraestrutura de entrada. A automação envia comandos à janela configurada sem depender do uso real do mouse/teclado do sistema.
 
-ATUALIZAÇÕES
+O fluxo principal é:
 
-Versão 4.3.121024:
+`GUI -> FarmManager -> FarmInstance -> FarmWorker -> FarmCommands -> InputController`
 
-    1 - imagens ja compilada sem a necessidade da pasta "assets"; Todavia ela será mantida no repositório por questao de organização
-    2 - Versão do main.py e do .txt ja estão sincronizadas
+Cada instância mantém seu próprio estado de execução, configuração de Ultimate e `cycle_delay`. A aplicação pode executar várias instâncias simultaneamente sem bloquear a interface.
 
-Versão 4.2.111024:
+## Funcionalidades
 
-    1 - adicionado protocolo que ao usuário fechar interface, ele ja força a execução da função de fechar todos scripts rodando
+- Interface desktop com PySide6
+- Criação de instâncias a partir dos índices informados
+- Execução e parada individual de cada instância
+- Execução concorrente usando threads daemon
+- Controle individual de Ultimate
+- `cycle_delay` configurável por instância
+- Parada de todas as instâncias
+- Implementações de input para Windows e Linux
+- Remoção individual de instâncias
+- Testes unitários e testes específicos por plataforma
+- Empacotamento como executável Windows com PyInstaller
 
-Versão 4.0.101024:
+## Arquitetura
 
-    1 - Refatorado todo código para Programação Orientada à Objetos
-    2 - Adicionada opção de fechar script para apenas uma janela especifica
-    3 - Interface remodelada
-    4 - Interface sobrepondo outros aplicativos
-    5 - Adicionada bind para mostrar/ocultar ('insert')
-    6 - Removido o atalho "Control + E" que terminava o script
-    7 - Adicionado botão de:
-        7.1 Fechar aplicativo forcando também o termino dos threads iniciados
-    8 - Otimazação do codigo de modo geral
-    -> Esta atualização foi para resolver um bug de que o script estaria sem funcionar para alguns usuários ou até funcionando apenas no cliente da Steam.exe! Caso voce ainda esteja enfrentando esse bug, me contate via discord: dz6k
-    
-Versão 3.0.170824:
+- `src/mir4_auto_farm/main.py`: ponto de entrada da aplicação
+- `src/mir4_auto_farm/app/window.py`: janela principal e controles de criação
+- `src/mir4_auto_farm/features/canvas`: representação visual das instâncias
+- `src/mir4_auto_farm/features/instance`: modelo e ciclo de vida de `FarmInstance`
+- `src/mir4_auto_farm/features/manager`: coordenação das instâncias
+- `src/mir4_auto_farm/features/farm`: comandos e worker do farm
+- `src/mir4_auto_farm/infrastructure/input`: abstrações e implementações de entrada
+- `src/mir4_auto_farm/infrastructure/window`: descoberta e controle de janelas
 
-    1 - Alterada levemente a interface
-    2 - União das 2 interfaces/modos
-    3 - Correção/Mudança na maneira de atualizacao do script 
-        3.1 Agora voce nao é "obrigado" a atualizar, ficou facultativo e mais simples a atualização
-    4 - Mudança na maneira de encontrar processos e inicia-los
-        4.1 Antes para o modo manual, para aplicativos com índice maior que 9 (10 em diante)
-        4.2 Aumentada a velocidade da ativação do script: agora a cada instancia que ele acha, ele ja inicia na hora // Antes ele procurava todas e apos procurar por um numero X de vezes, ele iniciava as instânscias, agora ele inicia a partir do momento que encontra a aplicação
-        4.3 Agora enquanto ele procura as instânscias abertas para iniciar o script, ele nao fica com a interface travada.
-    5 - Remoção de opções: 
-        5.1 Modo Simples
-        5.2 Modo Safe
-        - Motivo: Não estão otimizados e são redundantes, parecem muito mais funções para "encher linguiça" do que funções que de fato acrescentam alguma funcionalidade.
-    
-    OBS: Funcionalidades como teleporte e script de mineração estão, indeterminadamente, fora de questão por limitações da linguagem.
-    -> limitações como: Enviar clicks em coordenadas diretamente sem que bloqueie o uso do mouse do usuario, sobre o script de mineração, ele até é viável mas será bem longo, alem de implementar IA no reconhecimento de imagem, eu preciso ainda pegar muitos pontos no mapa para me locomover e com python e sem acessar diretamente a memoria do jogo, fica como uma movimentacao cega, posso ate me movimentar mas 100% de certeza que vou ate o ponto especifíco. 
+As decisões estruturais estão registradas em [docs/adr](docs/adr):
 
-Versão 2.2:
+- [ADR-001: Arquitetura modular por instância](docs/adr/ADR-001-arquitetura-modular-por-instancia.md)
+- [ADR-002: Ciclo de vida e concorrência por instância](docs/adr/ADR-002-ciclo-de-vida-e-concorrencia-por-instancia.md)
+- [ADR-003: Coordenação das instâncias com FarmManager](docs/adr/ADR-003-coordenacao-com-farm-manager.md)
+- [ADR-004: Abstração de entrada multiplataforma](docs/adr/ADR-004-abstracao-de-entrada-multiplataforma.md)
+- [ADR-005: Interface gráfica com PySide6](docs/adr/ADR-005-interface-grafica-com-pyside6.md)
+- [ADR-006: Configuração individual de cycle_delay](docs/adr/ADR-006-cycle-delay-individual-por-instancia.md)
+- [ADR-007: Estratégia de testes e validação](docs/adr/ADR-007-estrategia-de-testes-e-validacao.md)
+- [ADR-008: Windows como plataforma principal](docs/adr/ADR-008-windows-como-plataforma-principal.md)
+- [ADR-009: Distribuição Windows com PyInstaller](docs/adr/ADR-009-distribuicao-com-pyinstaller.md)
+- [ADR-010: Regras de escrita para ADRs do projeto](docs/adr/ADR-010-regras-de-escrita-para-adrs-do-projeto.md)
 
-    1 - Arrumado o seletor de indices Mir4: antes ele funcionava corretamente ate Mir4[9] no modo seletor
-    
-Versão 2.1:
+## Requisitos
 
-    1 - Modo Simples com verificação de morte agora funciona em segundo plano;
-    2 - Mudança na função do click, agora está mais realista.
+- Python 3.11 ou superior
+- [uv](https://docs.astral.sh/uv/)
+- Windows para a execução principal
+- Dependências de input compatíveis com a plataforma utilizada
 
-Versão 2.0:
+## Execução com uv
 
-    1 - Adicionado outra interface gráfica que tem a possibilidade de você escolher qual ou quais janelas voce quer que o script seja executado e ainda podendo escolher o tempo de mudança de alvo;
-    2 - Bug encontrado não resolvido(ainda):
-        2.1 O reconhecimento de imagem de quando você esta morrendo ou sendo atacado ta dando conflito com algumas skils de exposão dando TP em falsos positivos;
-        2.2 Mal otimização nas funções "Safe".
-    3 - Atualizações no funcionamento das funções;
-    4 - Alteração do icone;
-    5 - Criação de um ambiente virtual venv;
-    6 - Criação de uma nova função:
-        6.1 Funções "Stops" para parar o script sem a necessidade de apertar a hotkey "CTRL+E", podendo ser executado e "pausado" quando bem quiser;
-    7 - Mudança do limite de procura de processos "Mir4G[]" para até 15 instâncias.
+Instale as dependências e execute a aplicação pelo entry point registrado no projeto:
 
-Versão 1.13:
+```bash
+uv sync
+uv run mir4_auto_farm
+```
 
-    1 - Mudança no início do código:
-        1.1 Antes ele clicava em uma coordenada x,y que deveria ser coencidente à tela do jogo, agora ele mesmo busca o processo mir4G[1] e ja "seleciona" sem que você precise deixar ele em um canto específico da tela (é altamente recomendado que use em tela cheia na metade direita do seu monitor);
-        1.2 Este comando serve ÚNICA e EXCLUSIVAMENTE para o processo de jogo 1 do Mir4(que será sempre a primeira tela do mir4 que tu vai executar).
-    2 - Adicionada uma nova automação com possíveis grandes melhorias e implementaçoes de novas funções futuras:
-        2.1 Agora você irá inicar o código e responder uma pergunta de qual é a instância do jogo(qual número do jogo), este número você consegue ver no nome da janela do mir4(vai estar semelhante a: "Mir4G[1]);
-        2.2 Agora você pode utilizar normalmente seu computador e até deixar o jogo minimizado que o código irá continuar rodando.
-        2.3 Esta nova funcao é simples e direta, apenas farmar de maneira "stealth". Nesta função não tem como saber se você morreu como no executável farm.py, use-a sabendo que poderá morrer e ficar afk dando "tiros ao ar" na base.
+Na janela da aplicação, informe os índices das instâncias, separados por vírgula ou espaço, e o delay de ciclo. Cada instância criada começa sua execução de forma independente.
 
+## Testes e qualidade
 
-Versão 1.12.1:
+```bash
+uv run pytest
+uv run ruff check .
+uv run mypy src
+```
 
-    1 - Corrigida a linha de código de reconhecimento de imagem na detecção se o alt estiver morto.
+Os testes estão organizados em `tests/unit`, `tests/windows` e `tests/linux`. A integração Linux depende do ambiente gráfico e de ferramentas disponíveis no sistema, como `xdotool`.
 
-Versão 1.12:
+## Build Windows
 
-    1 - Atualizado o verificador de morte.
-    2 - Atualizada a variável de ultimate.
-        2.1 Para usar ultimate durante o farm, deixe "ultimate = True" e para nao usar ultimate durante o farm deixe "ultimate = False".
+O comando de referência para gerar o executável é:
 
+```bash
+uv run -- python -m PyInstaller --paths src --name MIR4AutoFarm --windowed --onefile src/mir4_auto_farm/main.py
+```
 
-Versão 1.11:
+O executável final será gerado em `dist/MIR4AutoFarm.exe`. O diretório `build` contém artefatos intermediários e não é o destino do executável distribuível.
 
-    1 - Corrigido alguns erros gramaticais.
-    2 - Implemementados comentários em inglês para caso alguém queira aprimorar o código.
-    3 - Deixando mais amigável e retornando informação da hora em que morreu.
+## Estado do projeto
 
+O refactor estrutural foi encerrado com a arquitetura modular, o gerenciamento individual de instâncias, a execução concorrente e o fluxo de build Windows estabelecidos. Novas alterações estruturais devem ser motivadas por uma necessidade concreta do produto.
 
-versão 1.1:
+## Licença
 
-    1 - Adicionado um verificador caso o player esteja morto.
-    2 - Removido do código a funcao auto_farm() e substituindo apenas por um loop while.
-    3 - Para esta função funcionar, tem alguns requisitos:
-        Local de recolha de energia no "Bosques Fantasmas"da "Área do Centro Espiritual" tem que estar marcadocomo a última area "favoritada" e a janela do mir4"completa" na segunda metade do monitor(ladoesquerdo do monitor) (win+rightkey).
-    4 - Adicionados alguns arquivos .png com a finalidade de cooperar para o reconhecimento de imagem! Não alterar, apagar ou trocar caso não tenha conhecimendo de como funciona.
-
-
-Thanks for using, improving or looking at my code! 
+Este projeto é livre para uso, adaptação e experimentação.
